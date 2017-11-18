@@ -1,9 +1,9 @@
-package me.alextur.octave.rest.octave;
+package me.alextur.matlab.rest.octave;
 
-import me.alextur.octave.octave.ExecutionRequest;
-import me.alextur.octave.octave.ExecutionResult;
-import me.alextur.octave.octave.OctaveExecutor;
-import me.alextur.octave.rest.BaseEndpoint;
+import me.alextur.matlab.octave.ExecutionRequest;
+import me.alextur.matlab.octave.ExecutionResult;
+import me.alextur.matlab.octave.OctaveExecutor;
+import me.alextur.matlab.rest.BaseEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

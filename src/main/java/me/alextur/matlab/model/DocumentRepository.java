@@ -1,7 +1,7 @@
-package me.alextur.octave.model;
+package me.alextur.matlab.model;
 
-import me.alextur.octave.model.beans.Document;
-import me.alextur.octave.model.config.DocumentStorageConfig;
+import me.alextur.matlab.model.beans.Document;
+import me.alextur.matlab.model.config.DocumentStorageConfig;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

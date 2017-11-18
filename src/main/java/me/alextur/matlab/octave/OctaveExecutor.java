@@ -1,4 +1,4 @@
-package me.alextur.octave.octave;
+package me.alextur.matlab.octave;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 /**

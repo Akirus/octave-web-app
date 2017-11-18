@@ -1,4 +1,4 @@
-package me.alextur.octave.model;
+package me.alextur.matlab.model;
 
 /**
  * @author Alex Turchynovich

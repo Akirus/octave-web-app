@@ -1,14 +1,12 @@
-package me.alextur.octave.model;
+package me.alextur.matlab.model;
 
-import me.alextur.octave.model.beans.Document;
+import me.alextur.matlab.model.beans.Document;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Alex Turchynovich

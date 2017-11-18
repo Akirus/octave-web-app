@@ -1,4 +1,4 @@
-package me.alextur.octave;
+package me.alextur.matlab;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,9 @@
-package me.alextur.octave.rest.documents;
+package me.alextur.matlab.rest.documents;
 
-import me.alextur.octave.model.DataException;
-import me.alextur.octave.model.DocumentRepository;
-import me.alextur.octave.model.beans.Document;
-import me.alextur.octave.rest.BaseEndpoint;
+import me.alextur.matlab.model.DataException;
+import me.alextur.matlab.model.DocumentRepository;
+import me.alextur.matlab.model.beans.Document;
+import me.alextur.matlab.rest.BaseEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

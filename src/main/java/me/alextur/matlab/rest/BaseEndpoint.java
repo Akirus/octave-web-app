@@ -1,4 +1,4 @@
-package me.alextur.octave.rest;
+package me.alextur.matlab.rest;
 
 import org.apache.log4j.Logger;
 

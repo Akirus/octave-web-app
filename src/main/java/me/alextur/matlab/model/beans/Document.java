@@ -1,4 +1,4 @@
-package me.alextur.octave.model.beans;
+package me.alextur.matlab.model.beans;
 
 import java.util.HashMap;
 import java.util.Map;

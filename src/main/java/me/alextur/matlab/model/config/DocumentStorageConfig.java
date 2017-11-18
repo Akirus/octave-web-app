@@ -1,4 +1,4 @@
-package me.alextur.octave.model.config;
+package me.alextur.matlab.model.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
