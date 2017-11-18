@@ -2,6 +2,7 @@ package me.alextur.matlab.octave;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -16,16 +17,20 @@ public class OctaveExecutor {
 
     private Logger logger = Logger.getLogger(OctaveExecutor.class);
 
-    private static final String OCTAVE_COMMAND = "octave";
+    private OctaveConfig config;
+
+    public OctaveExecutor(@Autowired OctaveConfig pConfig) {
+        config = pConfig;
+    }
 
     private void runOctaveProcess(String input, Writer outputWriter, Writer errorWriter) throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(OCTAVE_COMMAND, "--eval", input);
+        builder.command(config.getCommand(), "--eval", input);
         Process p = builder.start();
 
         boolean finished = false;
         try {
-            finished = p.waitFor(5, TimeUnit.SECONDS);
+            finished = p.waitFor(config.getProcessTimeout(), TimeUnit.SECONDS);
         } catch (InterruptedException pE) {
             logger.error("timeout for octave is exceed!", pE);
         }
