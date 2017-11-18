@@ -31,6 +31,6 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jersey')
 	compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
-	compile name: 'javaoctave-0.6.1'
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

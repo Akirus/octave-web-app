@@ -1,6 +1,7 @@
 package me.alextur.octave.rest.config;
 
-import me.alextur.octave.rest.DocumentsEndpoint;
+import me.alextur.octave.rest.documents.DocumentsEndpoint;
+import me.alextur.octave.rest.octave.OctaveEndpoint;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class JerseyConfig extends ResourceConfig {
 
     private void registerEndpoints(){
         register(DocumentsEndpoint.class);
+        register(OctaveEndpoint.class);
     }
 
 }

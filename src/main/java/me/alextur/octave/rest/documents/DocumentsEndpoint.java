@@ -1,8 +1,9 @@
-package me.alextur.octave.rest;
+package me.alextur.octave.rest.documents;
 
 import me.alextur.octave.model.DataException;
 import me.alextur.octave.model.DocumentRepository;
 import me.alextur.octave.model.beans.Document;
+import me.alextur.octave.rest.BaseEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Component
 @Produces(MediaType.APPLICATION_JSON)
 @Path(DocumentLinkManager.ROOT_PATH)
-public class DocumentsEndpoint extends BaseEndpoint{
+public class DocumentsEndpoint extends BaseEndpoint {
 
     private DocumentRepository documentRepository;
     private DocumentLinkManager documentLinkManager;
