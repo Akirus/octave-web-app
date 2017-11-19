@@ -1,0 +1,17 @@
+<div>
+  <pre class="language-matlab"><code class="language-matlab">{{code}}</code></pre>
+  <div *ngIf="errors" class="errors-block">
+    Errors:
+    <pre><code>{{errors}}</code></pre>
+  </div>
+  <div *ngIf="output">
+    Output:
+    <pre><code>{{output}}</code></pre>
+  </div>
+
+  <button (click)="runCode()" class="btn btn-primary btn-success">
+    <i class="glyphicon glyphicon-repeat {{ loading ? 'fast-right-spinner' : ''}}"></i>
+    Run
+  </button>
+
+</div>

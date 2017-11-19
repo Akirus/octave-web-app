@@ -1,0 +1,12 @@
+
+.nav li.active{
+  background-color: ghostwhite !important;
+}
+
+.nav-stacked {
+  margin-left: 10px;
+}
+
+.nav > li > a {
+  color:#787878;
+}

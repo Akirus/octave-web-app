@@ -1,0 +1,21 @@
+
+<hr>
+
+<ul class="nav nav-stacked">
+  <li class="nav-header" routerLinkActive="active">
+    <a routerLink="/home" ><i class="glyphicon glyphicon-home"></i> Home</a>
+  </li>
+  <li class="nav-header" routerLinkActive="active">
+    <a routerLink="/playground" ><i class="glyphicon glyphicon-play-circle"></i> Playground</a>
+  </li>
+  <li class="nav-header"><a href="#" onclick="event.preventDefault()" data-toggle="collapse" data-target="#menu2"> Lessons <i
+    class="glyphicon glyphicon-chevron-right"></i></a>
+    <ul class="nav nav-stacked collapse in" id="menu2">
+      <li *ngFor="let lesson of lessons" routerLinkActive="active">
+        <a routerLink="/lesson/{{lesson.id}}">{{ lesson.name }}</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
