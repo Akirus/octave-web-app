@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {OctaveService} from "../../services/octave.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'octave-exec',
@@ -14,7 +15,9 @@ export class OctaveExecComponent implements OnInit {
   output: string;
   errors: string;
 
-  constructor(private cdRef: ChangeDetectorRef, private octaviaService : OctaveService) { }
+  constructor(private cdRef: ChangeDetectorRef,
+              private octaviaService : OctaveService,
+              private router: Router) { }
 
   runCode(){
     console.log("Run");
@@ -27,6 +30,12 @@ export class OctaveExecComponent implements OnInit {
         this.loading = false;
         this.cdRef.detectChanges();
     });
+  }
+
+  gotoPlayground(){
+    localStorage.setItem('currentCode', this.code);
+
+    this.router.navigate(['/playground']);
   }
 
   ngOnInit() {

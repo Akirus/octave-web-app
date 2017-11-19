@@ -76,3 +76,18 @@
   }
 }
 
+.errors-block{
+  color: red;
+  font-style: italic;
+}
+
+
+.editor{
+  min-height: 400px;
+  width:100%;
+  overflow: auto;
+}
+
+.editor-column{
+  /*border-right: 1px solid #333;*/
+}
