@@ -1,4 +1,4 @@
-package me.alextur.matlab.octave;
+package me.alextur.matlab.service.octave;
 
 /**
  * @author Alex Turchynovich

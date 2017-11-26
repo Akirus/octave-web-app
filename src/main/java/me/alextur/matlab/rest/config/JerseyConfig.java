@@ -2,8 +2,11 @@ package me.alextur.matlab.rest.config;
 
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
-import me.alextur.matlab.rest.documents.DocumentsEndpoint;
-import me.alextur.matlab.rest.octave.OctaveEndpoint;
+import me.alextur.matlab.rest.auth.AuthFilter;
+import me.alextur.matlab.rest.auth.AuthenticationTokenProcessingFilter;
+import me.alextur.matlab.rest.endpoints.documents.DocumentsEndpoint;
+import me.alextur.matlab.rest.endpoints.octave.OctaveEndpoint;
+import me.alextur.matlab.rest.endpoints.user.UserEndpoint;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +21,10 @@ public class JerseyConfig extends ResourceConfig {
     }
 
     private void registerEndpoints(){
+        register(AuthFilter.class);
         register(DocumentsEndpoint.class);
         register(OctaveEndpoint.class);
+        register(UserEndpoint.class);
         configureSwagger();
     }
 
@@ -30,7 +35,7 @@ public class JerseyConfig extends ResourceConfig {
         beanConfig.setSchemes(new String[]{"http"});
         beanConfig.setHost("localhost:8080");
         beanConfig.setBasePath("/");
-        beanConfig.setResourcePackage("me.alextur.matlab.rest.config,me.alextur.matlab.rest.documents,me.alextur.matlab.rest.octave");
+        beanConfig.setResourcePackage("me.alextur.matlab.rest.config,me.alextur.matlab.rest.endpoints.documents,me.alextur.matlab.rest.endpoints.octave");
         beanConfig.setPrettyPrint(true);
         beanConfig.setScan(true);
     }

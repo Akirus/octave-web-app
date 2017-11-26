@@ -1,4 +1,4 @@
-package me.alextur.matlab.model;
+package me.alextur.matlab.repository;
 
 /**
  * @author Alex Turchynovich

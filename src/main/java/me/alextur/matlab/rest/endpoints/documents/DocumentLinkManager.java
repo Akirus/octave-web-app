@@ -1,4 +1,4 @@
-package me.alextur.matlab.rest.documents;
+package me.alextur.matlab.rest.endpoints.documents;
 
 import org.springframework.stereotype.Component;
 

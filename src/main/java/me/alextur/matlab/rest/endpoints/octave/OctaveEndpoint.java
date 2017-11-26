@@ -1,9 +1,9 @@
-package me.alextur.matlab.rest.octave;
+package me.alextur.matlab.rest.endpoints.octave;
 
-import me.alextur.matlab.octave.ExecutionRequest;
-import me.alextur.matlab.octave.ExecutionResult;
-import me.alextur.matlab.octave.OctaveExecutor;
 import me.alextur.matlab.rest.BaseEndpoint;
+import me.alextur.matlab.service.octave.OctaveExecutorService;
+import me.alextur.matlab.service.octave.ExecutionRequest;
+import me.alextur.matlab.service.octave.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +23,9 @@ import javax.ws.rs.core.Response;
 @Path("octave")
 public class OctaveEndpoint extends BaseEndpoint {
 
-    private OctaveExecutor executor;
+    private OctaveExecutorService executor;
 
-    public OctaveEndpoint(@Autowired OctaveExecutor pExecutor) {
+    public OctaveEndpoint(@Autowired OctaveExecutorService pExecutor) {
         executor = pExecutor;
     }
 

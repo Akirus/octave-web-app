@@ -1,4 +1,4 @@
-package me.alextur.matlab.model.beans;
+package me.alextur.matlab.model;
 
 import java.util.HashMap;
 import java.util.Map;

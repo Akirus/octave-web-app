@@ -1,4 +1,4 @@
-package me.alextur.matlab.octave;
+package me.alextur.matlab.service.octave;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -13,13 +13,13 @@ import java.util.concurrent.TimeUnit;
  * @author Alex Turchynovich
  */
 @Component
-public class OctaveExecutor {
+public class OctaveExecutorService {
 
-    private Logger logger = Logger.getLogger(OctaveExecutor.class);
+    private Logger logger = Logger.getLogger(OctaveExecutorService.class);
 
     private OctaveConfig config;
 
-    public OctaveExecutor(@Autowired OctaveConfig pConfig) {
+    public OctaveExecutorService(@Autowired OctaveConfig pConfig) {
         config = pConfig;
     }
 

@@ -1,6 +1,6 @@
-package me.alextur.matlab.model;
+package me.alextur.matlab.repository.document;
 
-import me.alextur.matlab.model.beans.Document;
+import me.alextur.matlab.model.Document;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

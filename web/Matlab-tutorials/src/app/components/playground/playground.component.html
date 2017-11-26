@@ -7,9 +7,11 @@
                   [options]="editorOptions"
                   class="editor">
         <!--[theme]="'eclipse'"-->
-
-
       </ace-editor>
+      <button (click)="runCode()" class="btn btn-primary btn-success">
+        <i class="glyphicon glyphicon-repeat {{ loading ? 'fast-right-spinner' : ''}}"></i>
+        Run
+      </button>
     </div>
     <div class="col-md-3">
       <div *ngIf="errors" class="errors-block">
@@ -23,9 +25,6 @@
     </div>
   </div>
 
-  <button (click)="runCode()" class="btn btn-primary btn-success">
-    <i class="glyphicon glyphicon-repeat {{ loading ? 'fast-right-spinner' : ''}}"></i>
-    Run
-  </button>
+
 
 </div>

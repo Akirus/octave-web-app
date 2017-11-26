@@ -1,7 +1,7 @@
-package me.alextur.matlab.model;
+package me.alextur.matlab.repository.document;
 
-import me.alextur.matlab.model.beans.Document;
-import me.alextur.matlab.model.config.DocumentStorageConfig;
+import me.alextur.matlab.model.Document;
+import me.alextur.matlab.repository.DataException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,7 @@ public class DocumentRepository {
         return result;
     }
 
-    public List<Document> getAll(final boolean withContent) throws DataException{
+    public List<Document> getAll(final boolean withContent) throws DataException {
         try {
             Path directory = getDirectory();
 

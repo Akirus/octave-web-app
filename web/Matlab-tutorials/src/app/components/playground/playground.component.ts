@@ -21,6 +21,8 @@ export class PlaygroundComponent implements OnInit {
       this.loading = true;
       this.cdRef.detectChanges();
 
+      localStorage.setItem('currentCode', this.code);
+
       this.octaviaService.execute(this.code).then(result => {
         this.output = result.output;
         this.errors = result.errors;
@@ -37,7 +39,6 @@ export class PlaygroundComponent implements OnInit {
 
     if(code && code.trim().length > 0) {
       this.code = code;
-      localStorage.removeItem('currentCode');
     }
 
   }
