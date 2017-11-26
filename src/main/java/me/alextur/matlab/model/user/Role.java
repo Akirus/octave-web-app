@@ -1,5 +1,6 @@
 package me.alextur.matlab.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Role implements GrantedAuthority {
     }
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     public Set<User> getUsers() {
         return users;
     }
@@ -38,6 +40,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     @Transient
+    @JsonIgnore
     public String getAuthority() {
         return name;
     }

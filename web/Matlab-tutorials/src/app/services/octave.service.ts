@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 
 import { AppConfig } from "./AppConfig";
-import { Http } from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class OctaveService {
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   private preprocess(result){
-      let object = result.json();
+    console.dir(result);
+      let object = result;
       object.output = object.output.replace(/\n\s*\n/g, '\n');
 
       return object;

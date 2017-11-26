@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +22,16 @@ import java.util.UUID;
 @Component
 public class UserService implements UserDetailsService {
 
-    private AccessTokenRepository accessTokenRepository;
-    private UserRepository userRepository;
+    private final AccessTokenRepository accessTokenRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public UserService(@Autowired AccessTokenRepository pAccessTokenRepository,
-                       @Autowired UserRepository pUserRepository) {
+                       @Autowired UserRepository pUserRepository,
+                       @Autowired BCryptPasswordEncoder pPasswordEncoder) {
         accessTokenRepository = pAccessTokenRepository;
         userRepository = pUserRepository;
+        passwordEncoder = pPasswordEncoder;
     }
 
     @Transactional
@@ -61,5 +65,14 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         return user;
+    }
+
+    public User updatePassword(User pUser, String pPassword) {
+        pUser.setPassword(passwordEncoder.encode(pPassword));
+        return userRepository.saveAndFlush(pUser);
+    }
+
+    public User updateUser(User pUser) {
+        return userRepository.saveAndFlush(pUser);
     }
 }

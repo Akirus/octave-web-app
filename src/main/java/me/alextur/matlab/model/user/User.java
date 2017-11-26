@@ -1,5 +1,6 @@
 package me.alextur.matlab.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +19,8 @@ public class User implements UserDetails{
     private String username;
     private String password;
     private Set<Role> roles;
+    private String firstName;
+    private String lastName;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,6 +40,7 @@ public class User implements UserDetails{
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -57,6 +61,7 @@ public class User implements UserDetails{
 
     @Override
     @Transient
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
@@ -85,5 +90,19 @@ public class User implements UserDetails{
         return true;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public void setFirstName(String pFirstName) {
+        firstName = pFirstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String pLastName) {
+        lastName = pLastName;
+    }
 }

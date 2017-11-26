@@ -33,7 +33,7 @@ public class AuthFilter implements ContainerRequestFilter {
         Method method = resourceInfo.getResourceMethod();
 
         boolean isPermitAll = method.isAnnotationPresent(PermitAll.class);
-        if(!isPermitAll) {
+        if(!isPermitAll && !requestContext.getMethod().equals("OPTIONS")) {
             PermitRoles permitRoles = method.getAnnotation(PermitRoles.class);
 
             if(permitRoles != null) {

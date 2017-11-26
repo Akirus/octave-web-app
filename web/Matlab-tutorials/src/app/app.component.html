@@ -1,7 +1,7 @@
-<app-header></app-header>
+<app-header *ngIf="router.url != '/login'"></app-header >
 
 <!-- Main -->
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="router.url != '/login'">
   <div class="row">
     <div class="col-sm-3">
       <!-- Left column -->
@@ -14,5 +14,8 @@
     <!--/col-span-9-->
   </div>
 </div>
+
+<router-outlet  *ngIf="router.url == '/login'"></router-outlet>
+
 <!-- /Main -->
-<app-footer></app-footer>
+<app-footer *ngIf="router.url != '/login'"></app-footer>

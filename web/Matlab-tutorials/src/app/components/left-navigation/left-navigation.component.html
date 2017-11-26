@@ -1,7 +1,6 @@
+<hr *ngIf="authService.isAuthenticated()">
 
-<hr>
-
-<ul class="nav nav-stacked">
+<ul class="nav nav-stacked" *ngIf="authService.isAuthenticated()">
   <li class="nav-header" routerLinkActive="active">
     <a routerLink="/home" ><i class="glyphicon glyphicon-home"></i> Home</a>
   </li>
@@ -18,4 +17,4 @@
   </li>
 </ul>
 
-<hr>
+<hr *ngIf="authService.isAuthenticated()">

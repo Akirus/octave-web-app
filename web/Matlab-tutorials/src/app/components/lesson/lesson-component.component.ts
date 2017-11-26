@@ -34,7 +34,10 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked{
           this.lessonId = params['id'];
 
           this.documentsService.document(this.lessonId).then(result => {
-              this.lesson = result.json();
+              this.lesson = result;
+            },
+          err => {
+
           })
       });
 

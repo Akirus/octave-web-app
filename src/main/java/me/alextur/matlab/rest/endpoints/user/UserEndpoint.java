@@ -7,6 +7,7 @@ import me.alextur.matlab.rest.auth.PermitAll;
 import me.alextur.matlab.rest.auth.PermitRoles;
 import me.alextur.matlab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -66,22 +67,47 @@ public class UserEndpoint extends BaseEndpoint {
     }
 
     @GET
-    @Path("logined")
+    @Path("details")
     @Transactional
-    public Object logined(){
+    public Object details(){
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
+        User user = (User) authentication.getPrincipal();
+
+        return user;
     }
 
-    @GET
-    @PermitRoles(roles = {"Admin"})
-    @Path("adminOnly")
-    @Transactional
-    public Object adminOnly(){
+    @POST
+    @Path("update")
+    public Object update(UpdateRequest pUpdateRequest){
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
+        User user = (User) authentication.getPrincipal();
+
+        if(pUpdateRequest != null) {
+
+            if (pUpdateRequest.getFirstName() != null) {
+                user.setFirstName(pUpdateRequest.getFirstName());
+            }
+            if (pUpdateRequest.getLastName() != null) {
+                user.setLastName(pUpdateRequest.getLastName());
+            }
+
+            user = this.userService.updateUser(user);
+
+            if (pUpdateRequest.getPassword() != null) {
+                user = this.userService.updatePassword(user, pUpdateRequest.getPassword());
+            }
+        }
+
+        return user;
     }
+
+
 }

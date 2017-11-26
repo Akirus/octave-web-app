@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { AppConfig } from "./AppConfig";
-import { Http } from "@angular/http";
-import {Observable} from "rxjs/Observable";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class DocumentsService {
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   public getDocuments() {

@@ -8,15 +8,22 @@ import { AceEditorModule} from 'ng2-ace-editor';
 const appRoutes: Routes = [
   {
     path: 'home',
-    component: MainContentComponent
+    component: MainContentComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'lesson/:id',
-    component: LessonComponent
+    component: LessonComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'playground',
-    component: PlaygroundComponent
+    component: PlaygroundComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: '',
@@ -35,6 +42,13 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LessonComponent } from './components/lesson/lesson-component.component';
 import { OctaveExecComponent } from './components/octave-exec/octave-exec.component';
 import { PlaygroundComponent } from './components/playground/playground.component';
+import { TokenInterceptor } from "./services/TokenInterceptor";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {UnathorizedInterceptor} from "./services/UnathorizedInterceptor";
+import {AuthService} from "./services/AuthService";
+import { LoginComponent } from './components/login/login.component';
+import {FormsModule} from "@angular/forms";
+import {AuthGuard} from "./services/AuthGuard";
 
 @NgModule({
   declarations: [
@@ -45,7 +59,8 @@ import { PlaygroundComponent } from './components/playground/playground.componen
     FooterComponent,
     LessonComponent,
     OctaveExecComponent,
-    PlaygroundComponent
+    PlaygroundComponent,
+    LoginComponent
   ],
   entryComponents: [
     OctaveExecComponent
@@ -55,9 +70,19 @@ import { PlaygroundComponent } from './components/playground/playground.componen
     RouterModule.forRoot(appRoutes),
     HttpModule,
     MarkdownModule.forRoot(),
-    AceEditorModule
+    AceEditorModule,
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
