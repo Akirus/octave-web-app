@@ -7,3 +7,42 @@ GET http://localhost:8080/documents/13
 X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
 
 ###
+
+POST http://localhost:8080/documents/13/update
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+Content-Type: application/json
+
+{
+    "name" : "Introduction",
+    "order" : 1,
+    "content":"# Matlab Support Test in libbingham\n\nStarting with version 0.3.0, all of the core functions in libbingham are supported in Matlab. But, as in the C library, most functions only support Bingham distributions up to dimension 4. (That is, up to S3.)\n\n#### Creating a Bingham Distribution in Matlab\n\nBingham distributions are represented as a Matlab struct, with fields *d*, *V*, *Z*, and *F* and *dF* (which are computed by libbingham). To create a new Bingham distribution, create a new struct with dimension d, orthogonal direction matrix V, and concentration parameters Z. For example, the uniform Bingham distribution on the 3-D sphere S2 is:\n```matlab\nB = struct();\nB.d = 3;\nB.Z = [0,0];\nB.V = [0,0; 1,0; 0,1];\nB\n```\n\nTo look up the normalization constant and its partial derivatives with respect to Z, use:\n```matlab\n[B.F B.dF] = bingham_F(B.Z);\n```\n\n#### Fitting\n\nGiven a matrix *X* with unit vectors in the rows, you can compute the maximum likelihood Bingham distribution given *X* with *bingham_fit()*. For example:\n```matlab\n% create n 4-D unit vectors\nn = 10;\nX = randn(n,4);\nX = X./repmat(sqrt(sum(X.^2,2)), [1,4]);\n\n% Fit a Bingham distribution to X\nB = bingham_fit(X);\n```\n\n#### Sampling\n\nTo sample *n* unit vectors from a Bingham distribution, use:\n```matlab\nY = bingham_sample(B,n);\n```\n\n#### Computing the PDF\n\nTo compute the PDF of a unit vector x under a Bingham B, use:\n```matlab\nf = bingham_pdf(x,B);\n```\n\n#### Computing the Mode\n```matlab\nmu = bingham_mode(B);\n```\n\n#### Computing the Entropy\n```matlab\nh = bingham_entropy(B);\n```\n\n#### Computing the Scatter Matrix\n\nTo compute the scatter matrix, $E[\\vec{x} \\vec{x}^T]$, use:\n```matlab\nS = bingham_scatter(B);\n```\n\n#### Multiplying two Binghams\n\nTwo multiply two Binghams, B1 and B2, use:\n```matlab\nB = bingham_mult(B1,B2);\n```\n\n#### Special Functions for the Quaternion Bingham Distribution\n```matlab\nB2 = bingham_pre_rotate_3d(B,q);\nB2 = bingham_post_rotate_3d(q,B);\nB2 = bingham_invert_3d(B);\n```"
+}
+
+###
+POST http://localhost:8080/documents/12/update
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+Content-Type: application/json
+
+{
+    "name" : "Chapter 2",
+    "order" : 3
+}
+
+
+###
+
+PUT http://localhost:8080/documents/create
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+Content-Type: application/json
+
+{
+    "name" : "New Doc 2",
+    "content" : "# Hi all",
+    "order" : 5
+}
+
+###
+POST http://localhost:8080/documents/39/delete
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###

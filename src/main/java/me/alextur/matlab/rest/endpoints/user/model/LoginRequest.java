@@ -1,4 +1,4 @@
-package me.alextur.matlab.rest.endpoints.user;
+package me.alextur.matlab.rest.endpoints.user.model;
 
 /**
  * @author Alex Turchynovich

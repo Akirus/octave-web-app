@@ -5,6 +5,7 @@ import { HttpModule } from "@angular/http";
 import { MarkdownModule } from "angular2-markdown";
 import { AceEditorModule} from 'ng2-ace-editor';
 
+
 const appRoutes: Routes = [
   {
     path: 'users',
@@ -66,6 +67,8 @@ import { MyAccountComponent } from './components/my-account/my-account.component
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterConfirmationComponent } from './components/register-confirmation/register-confirmation.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
+import {BootstrapModalModule} from "ng2-bootstrap-modal";
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -81,10 +84,12 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
     MyAccountComponent,
     RegisterComponent,
     RegisterConfirmationComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    ConfirmModalComponent
   ],
   entryComponents: [
-    OctaveExecComponent
+    OctaveExecComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +98,8 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
     MarkdownModule.forRoot(),
     AceEditorModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BootstrapModalModule
   ],
   providers: [
     {

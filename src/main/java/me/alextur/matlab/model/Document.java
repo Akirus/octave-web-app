@@ -29,6 +29,9 @@ public class Document {
 
     private String fileName;
 
+    @Column(name = "sort_order",nullable = true)
+    private Integer order;
+
     public Long getId() {
         return id;
     }
@@ -79,5 +82,13 @@ public class Document {
 
     public void setFileName(String pFileName) {
         fileName = pFileName;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer pOrder) {
+        order = pOrder;
     }
 }

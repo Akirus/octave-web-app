@@ -13,8 +13,14 @@
   <li class="nav-header"><a href="#" onclick="event.preventDefault()" data-toggle="collapse" data-target="#menu2"> Lessons <i
     class="glyphicon glyphicon-chevron-right"></i></a>
     <ul class="nav nav-stacked collapse in" id="menu2">
-      <li *ngFor="let lesson of lessons" routerLinkActive="active">
-        <a routerLink="/lesson/{{lesson.id}}">{{ lesson.name }}</a>
+      <li *ngFor="let lesson of lessons; let i = index" routerLinkActive="active">
+        <a routerLink="/lesson/{{lesson.id}}">{{ lesson.name }}
+          <a class="navbar-right" *ngIf="canEdit && i != 0" (click)="up(i, $event)"><span class="glyphicon glyphicon-chevron-up"></span></a>
+          <a class="navbar-right" *ngIf="canEdit && i != lessons.length - 1" (click)="down(i, $event)"><span class="glyphicon glyphicon-chevron-down"></span></a>
+        </a>
+      </li>
+      <li *ngIf="canEdit" routerLinkActive="active">
+        <a routerLink="/lesson/new"><span class="glyphicon glyphicon-duplicate"></span> New </a>
       </li>
     </ul>
   </li>

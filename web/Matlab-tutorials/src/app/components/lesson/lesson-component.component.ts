@@ -3,93 +3,164 @@ import {
   AfterContentChecked
 } from '@angular/core';
 
-import { ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
-import { DocumentsService } from "../../services/documents.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs/Subscription";
+import {DocumentsService} from "../../services/documents.service";
 
-import { MarkdownService } from "angular2-markdown";
+import {MarkdownService} from "angular2-markdown";
 import {OctaveExecComponent} from "../octave-exec/octave-exec.component";
+import {LoginService} from "../../services/login.service";
+import {DialogService} from "ng2-bootstrap-modal";
+import {ConfirmModalComponent} from "../confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-lesson-component',
   templateUrl: './lesson-component.component.html',
-  providers: [DocumentsService]
+  styleUrls: ['./lesson.component.css'],
+  providers: [DocumentsService, LoginService]
 })
-export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked{
+export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
 
-  afterCallback : Array<Function> = [];
+  afterCallback: Array<Function> = [];
+  sub: Subscription;
+  lessonId: string;
 
-  ngAfterContentChecked(): void {
-    window.setTimeout(() =>
-      this.afterCallback.forEach((fun) => {
-          fun();
-      })
-    , 0);
-    this.afterCallback = [];
+  lesson: any = {};
+
+  isEditMode: boolean = false;
+  isEditing: boolean = false;
+  canEdit: boolean = false;
+  isNew: boolean = false;
+
+  constructor(private currentRoute: ActivatedRoute,
+              private documentsService: DocumentsService,
+              private markdownService: MarkdownService,
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private _injector: Injector,
+              private loginService: LoginService,
+              private dialogService: DialogService,
+              private router: Router) {
   }
 
+  toogleEditMode() {
+    this.isEditMode = !this.isEditMode;
+    this.isEditing = true;
+  }
 
-  ngOnInit(): void {
-      this.sub = this.currentRoute.params.subscribe(params => {
-          this.lessonId = params['id'];
+  cancel() {
+    location.reload();
+  }
 
-          this.documentsService.document(this.lessonId).then(result => {
-              this.lesson = result;
-            },
-          err => {
-
-          })
+  delete() {
+    let disposable = this.dialogService.addDialog(ConfirmModalComponent, {
+      title: 'Delete document',
+      message: 'Are you sure you want to delete document?'
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {
+          this.documentsService.delete(this.lessonId).then(result => {
+            location.href = '/playground';
+          }).catch(result => {
+            location.href = '/playground';
+          });
+        }
       });
 
-      this.initCodeRender();
   }
 
-  private initCodeRender(): void{
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(OctaveExecComponent);
+  save() {
 
-      let lastId = 0;
+    if(this.isNew){
+      this.documentsService.create(this.lesson).then(result => {
+        let res : any = result;
+        window.location.href = "/lesson/" + res.id;
+      });
+    }
+    else {
+      this.documentsService.update(this.lessonId, this.lesson).then(result => {
+        location.reload();
+      });
+    }
+  }
 
-      this.markdownService.renderer.code = (code: string, language: string) => {
-        if(language == 'matlab'){
-          const id = lastId++;
+  ngAfterContentChecked(): void {
+    window.setTimeout(() => {
+      this.afterCallback.forEach((fun) => {
+        fun();
+      });
+      this.afterCallback = [];
+    });
+  }
 
-          // window.setTimeout(() => {
+  static getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+  }
 
-          this.afterCallback.push(() => {
+  ngOnInit(): void {
+    this.sub = this.currentRoute.params.subscribe(params => {
+      this.lessonId = params['id'];
 
-            let element = document.getElementById('matlab-' + id);
-
-            let component = componentFactory.create(this._injector, null, element);
-            component.instance.code = code;
-            component.changeDetectorRef.detectChanges()
-          });
-          // }, 500);
-
-          return `<div id="matlab-${id}"></div>`;
-        }
-
-        return `<pre><code>${code}</code></pre>`;
+      if(this.lessonId === 'new'){
+        this.lesson = {
+          "name" : "New Lesson",
+          "content" : "# New Lesson",
+          "order" : LessonComponent.getRandomIntInclusive(0, 10000)
+        };
+        this.isNew = true;
+        this.isEditMode = true;
+        this.isEditing = true;
       }
+      else {
+
+        this.documentsService.document(this.lessonId).then(result => {
+            this.lesson = result;
+          },
+          err => {
+
+          });
+      }
+    });
+
+    this.loginService.details().then(result => {
+      this.canEdit = this.loginService.isAdmin(result) || this.loginService.isTeacher(result);
+    });
+
+    this.initCodeRender();
+  }
+
+  private initCodeRender(): void {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(OctaveExecComponent);
+
+    let lastId = 0;
+
+    this.markdownService.renderer.code = (code: string, language: string) => {
+      if (language == 'matlab') {
+        const id = lastId++;
+
+        // window.setTimeout(() => {
+
+        this.afterCallback.push(() => {
+
+          let element = document.getElementById('matlab-' + id);
+
+          let component = componentFactory.create(this._injector, null, element);
+          component.instance.code = code;
+          component.changeDetectorRef.detectChanges()
+        });
+        // }, 500);
+
+        return `<div id="matlab-${id}"></div>`;
+      }
+
+      return `<pre><code>${code}</code></pre>`;
+    }
   }
 
   ngOnDestroy(): void {
-      this.sub.unsubscribe();
+    this.sub.unsubscribe();
   }
-
-  private currentRoute: ActivatedRoute;
-  private sub: Subscription;
-  private lessonId: number;
-
-  private lesson: any = {};
-
-  constructor(route: ActivatedRoute,
-              private documentsService : DocumentsService,
-              private markdownService : MarkdownService,
-              private componentFactoryResolver: ComponentFactoryResolver,
-              private _injector: Injector) {
-    this.currentRoute = route;
-    console.dir(route);
-  }
-
 
 }
