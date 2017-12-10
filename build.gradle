@@ -36,3 +36,8 @@ dependencies {
 	compile 'io.swagger:swagger-jersey2-jaxrs:1.5.3'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+bootRun{
+	// arguments for remote debug.
+	jvmArgs += ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"];
+}
