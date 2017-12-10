@@ -5,27 +5,23 @@ import me.alextur.matlab.model.user.User;
 import me.alextur.matlab.rest.BaseEndpoint;
 import me.alextur.matlab.rest.auth.PermitAll;
 import me.alextur.matlab.rest.auth.PermitRoles;
-import me.alextur.matlab.service.UserService;
+import me.alextur.matlab.service.user.UserListFilter;
+import me.alextur.matlab.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Alex Turchynovich
@@ -144,5 +140,29 @@ public class UserEndpoint extends BaseEndpoint {
         return user;
     }
 
+    @GET
+    @Path("list/{filter}")
+    @Transactional
+    public Object list(@PathParam("filter") UserListFilter filter){
+        return userService.getList(filter);
+    }
+
+    @POST
+    @Path("approve/{userId}")
+    @PermitRoles(roles = {"Admin", "Teacher"})
+    public Object approve(@PathParam("userId") long userId){
+        boolean success = userService.approveUser(userId);
+
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("reject/{userId}")
+    @PermitRoles(roles = {"Admin", "Teacher"})
+    public Object reject(@PathParam("userId") long userId){
+        boolean success = userService.rejectUser(userId);
+
+        return Response.ok().build();
+    }
 
 }

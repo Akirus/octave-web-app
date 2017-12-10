@@ -65,6 +65,7 @@ import {AuthGuard} from "./services/AuthGuard";
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterConfirmationComponent } from './components/register-confirmation/register-confirmation.component';
+import { UsersTableComponent } from './components/users-table/users-table.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { RegisterConfirmationComponent } from './components/register-confirmatio
     LoginComponent,
     MyAccountComponent,
     RegisterComponent,
-    RegisterConfirmationComponent
+    RegisterConfirmationComponent,
+    UsersTableComponent
   ],
   entryComponents: [
     OctaveExecComponent

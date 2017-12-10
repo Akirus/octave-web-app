@@ -45,8 +45,6 @@ export class LoginService{
       });
     }
 
-
-
     if(this.resolvingDetails) {
       return this.detailsPromise;
     }
@@ -55,7 +53,7 @@ export class LoginService{
       this.detailsPromise = this.http.get(AppConfig.API_ENDPOINT + "user/details").toPromise();
 
       return this.detailsPromise.then(result => {
-        LoginService.userCache.set('user', result, 30000);
+        LoginService.userCache.set('user', result, 60000);
         this.resolvingDetails = false;
         return result;
       }).catch(reason => {
@@ -86,5 +84,31 @@ export class LoginService{
       LoginService.userCache.del('user');
   }
 
+  public list(filter = "All"){
+    return this.http.get(AppConfig.API_ENDPOINT + "user/list/" + filter).toPromise();
+  }
+
+  public containsRole(user :any, role: string) : boolean{
+    if(user) {
+      let names: string[] = user.roles.map(role => role.name);
+      return names.indexOf(role) !== -1;
+    }
+  }
+
+  public isAdmin(user :any) : boolean{
+    return this.containsRole(user,'Admin');
+  }
+
+  public isTeacher(user :any) : boolean{
+    return this.containsRole(user,'Teacher');
+  }
+
+  public reject(userId: any){
+    return this.http.post( AppConfig.API_ENDPOINT + "user/reject/" + userId, null, {responseType: 'text'}).toPromise();
+  }
+
+  public approve(userId: any){
+    return this.http.post( AppConfig.API_ENDPOINT + "user/approve/" + userId,null,{responseType: 'text'}).toPromise();
+  }
 
 }

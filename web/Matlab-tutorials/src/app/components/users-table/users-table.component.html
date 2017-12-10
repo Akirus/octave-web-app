@@ -1,0 +1,24 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th *ngIf="this.canApprove">Approve</th>
+      <th *ngIf="this.canApprove">Reject</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.email}}</td>
+      <td>{{ dispalyRoles(user.roles) }}</td>
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
+      <td *ngIf="this.canApprove && !user.enabled"><button (click)="approve(user)" class="btn btn-success">Approve</button></td>
+      <td *ngIf="this.canApprove && !user.enabled"><button (click)="reject(user)" class="btn btn-danger">Reject</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

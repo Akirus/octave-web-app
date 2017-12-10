@@ -1,0 +1,14 @@
+GET http://localhost:8080/user/list/All
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###
+
+POST http://localhost:8080/user/approve/15
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###
+
+POST http://localhost:8080/user/reject/16
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###

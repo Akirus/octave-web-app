@@ -1,4 +1,4 @@
-package me.alextur.matlab.service;
+package me.alextur.matlab.service.user;
 
 import me.alextur.matlab.model.user.AccessToken;
 import me.alextur.matlab.model.user.DefinedRole;
@@ -108,5 +108,44 @@ public class UserService implements UserDetailsService {
 
     public User updateUser(User pUser) {
         return userRepository.saveAndFlush(pUser);
+    }
+
+    public List<User> getList(UserListFilter pFilter) {
+        switch (pFilter){
+            case All:
+                return userRepository.findAll();
+            case Active:
+                return userRepository.findAllByEnabled(true);
+            case Pending:
+                return userRepository.findAllByEnabled(false);
+            default:
+                return Collections.emptyList();
+        }
+    }
+
+    @Transactional
+    public boolean approveUser(long pUserId) {
+        User user = userRepository.findOne(pUserId);
+
+        if(user != null){
+            user.setEnabled(true);
+            userRepository.saveAndFlush(user);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Transactional
+    public boolean rejectUser(long pUserId) {
+        User user = userRepository.findOne(pUserId);
+        if(user != null && !user.isEnabled()) {
+
+            userRepository.delete(pUserId);
+            return true;
+        }
+
+        return false;
     }
 }
