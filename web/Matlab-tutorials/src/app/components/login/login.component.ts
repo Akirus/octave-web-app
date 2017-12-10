@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   public formSubmit(event){
       this.loginService.login(this.username, this.password).then(res => {
-          window.location.href = '/home';
+          window.location.href = '/playground';
       }).catch(error => {
           this.errorMessage = "Invalid login or password";
           console.dir(error);

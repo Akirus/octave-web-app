@@ -7,8 +7,8 @@ import { AceEditorModule} from 'ng2-ace-editor';
 
 const appRoutes: Routes = [
   {
-    path: 'home',
-    component: MainContentComponent,
+    path: 'users',
+    component: UsersComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -40,7 +40,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/playground',
     pathMatch: 'full'
   },
   // { path: '**', component: PageNotFoundComponent }
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
 
 import { AppComponent } from './app.component';
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
-import { MainContentComponent } from './components/main-content/main-content.component';
+import { UsersComponent } from './components/main-content/users.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LessonComponent } from './components/lesson/lesson-component.component';
@@ -71,7 +71,7 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
   declarations: [
     AppComponent,
     LeftNavigationComponent,
-    MainContentComponent,
+    UsersComponent,
     HeaderComponent,
     FooterComponent,
     LessonComponent,

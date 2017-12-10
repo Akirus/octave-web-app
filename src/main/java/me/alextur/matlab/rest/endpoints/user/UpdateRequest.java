@@ -10,18 +10,14 @@ import org.hibernate.validator.constraints.NotBlank;
 public class UpdateRequest {
 
     @Email
-    @Length(max = 255)
     private String email;
 
     @Length(max = 255)
-    @NotBlank
     private String password;
 
     @Length(max = 255)
-    @NotBlank
     private String firstName;
 
-    @NotBlank
     @Length(max = 255)
     private String lastName;
 

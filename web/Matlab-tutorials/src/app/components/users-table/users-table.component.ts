@@ -14,6 +14,7 @@ export class UsersTableComponent implements OnInit {
   private usersList: any = [];
 
   private canApprove: boolean;
+  private isTeacher: boolean;
 
   private static refresh: boolean = false;
 
@@ -34,6 +35,7 @@ export class UsersTableComponent implements OnInit {
   updateList(){
     this.loginService.details().then(user => {
       this.canApprove = this.loginService.isAdmin(user) || this.loginService.isTeacher(user);
+      this.isTeacher = this.loginService.isTeacher(user);
 
       return this.loginService.list(this.filter);
     }).then(result => {

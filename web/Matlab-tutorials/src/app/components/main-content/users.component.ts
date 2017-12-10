@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {LoginService} from "../../services/login.service";
 
 @Component({
-  selector: 'app-main-content',
-  templateUrl: './main-content.component.html',
+  selector: 'users',
+  templateUrl: './users.component.html',
   providers: [LoginService]
 })
-export class MainContentComponent implements OnInit {
+export class UsersComponent implements OnInit {
 
   private canApprove: boolean;
 
