@@ -25,7 +25,7 @@ public class OctaveExecutorService {
 
     private void runOctaveProcess(String input, Writer outputWriter, Writer errorWriter) throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(config.getCommand(), "--eval", input);
+        builder.command(config.getCommand(), "--quiet", "--eval", input);
         Process p = builder.start();
 
         boolean finished = false;
