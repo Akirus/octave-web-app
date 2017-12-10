@@ -66,9 +66,11 @@ public class UserRepositoryCreator {
             admin.setUsername("Admin");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRoles(pRoles);
+            admin.setEnabled(true);
 
             userRepository.saveAndFlush(admin);
         }
+
     }
 
 
