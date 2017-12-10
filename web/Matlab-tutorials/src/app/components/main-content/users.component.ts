@@ -8,7 +8,7 @@ import {LoginService} from "../../services/login.service";
 })
 export class UsersComponent implements OnInit {
 
-  private canApprove: boolean;
+  canApprove: boolean;
 
   constructor(private loginService : LoginService) { }
 

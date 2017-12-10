@@ -9,11 +9,11 @@ import {LoginService} from "../../services/login.service";
 })
 export class MyAccountComponent implements OnInit {
 
-  private firstName: string;
-  private lastName: string;
-  private email: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 
-  private user: any;
+  user: any;
 
   constructor(private loginService: LoginService) { }
 

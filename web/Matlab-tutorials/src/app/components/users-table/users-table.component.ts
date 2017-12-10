@@ -11,10 +11,10 @@ export class UsersTableComponent implements OnInit {
 
   @Input() filter: string;
 
-  private usersList: any = [];
+  usersList: any = [];
 
-  private canApprove: boolean;
-  private isTeacher: boolean;
+  canApprove: boolean;
+  isTeacher: boolean;
 
   private static refresh: boolean = false;
 

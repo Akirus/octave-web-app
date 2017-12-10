@@ -12,14 +12,14 @@ import {Router} from "@angular/router";
 })
 export class RegisterComponent implements OnInit {
 
-  private firstName: string = "";
-  private lastName: string = "";
-  private password: string = "";
-  private confirmPassword: string = "";
-  private email: string = "";
-  private role: string = "User";
+  firstName: string = "";
+  lastName: string = "";
+  password: string = "";
+  confirmPassword: string = "";
+  email: string = "";
+  role: string = "User";
 
-  private errorMessage: string;
+  errorMessage: string;
 
   constructor(private loginService: LoginService,
               private router: Router) { }
