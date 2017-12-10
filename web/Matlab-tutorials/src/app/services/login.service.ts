@@ -1,8 +1,7 @@
 
 import {Injectable} from "@angular/core";
 
-
-import {AppConfig} from "./AppConfig";
+import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "./AuthService";
 
@@ -17,7 +16,7 @@ export class LoginService{
   private static userCache: any = new Cache();
 
   public login(username: string, password: string){
-    return this.http.post(AppConfig.API_ENDPOINT + "user/login", {
+    return this.http.post(environment.apiUrl + "user/login", {
       "username" : username,
       "password" : password
     }).toPromise().then((result : any) => {
@@ -50,7 +49,7 @@ export class LoginService{
     }
     else{
       this.resolvingDetails = true;
-      this.detailsPromise = this.http.get(AppConfig.API_ENDPOINT + "user/details").toPromise();
+      this.detailsPromise = this.http.get(environment.apiUrl + "user/details").toPromise();
 
       return this.detailsPromise.then(result => {
         LoginService.userCache.set('user', result, 60000);
@@ -65,7 +64,7 @@ export class LoginService{
   }
 
   public update(details){
-    return this.http.post( AppConfig.API_ENDPOINT + "user/update", details).toPromise().then(result => {
+    return this.http.post( environment.apiUrl + "user/update", details).toPromise().then(result => {
       LoginService.userCache.set('user', result, 30000);
       return result;
     }).catch(reason => {
@@ -75,7 +74,7 @@ export class LoginService{
   }
 
   public register(formData){
-    return this.http.post( AppConfig.API_ENDPOINT + "user/register", formData, {responseType: 'text'}).toPromise();
+    return this.http.post( environment.apiUrl + "user/register", formData, {responseType: 'text'}).toPromise();
   }
 
   public logout(){
@@ -85,7 +84,7 @@ export class LoginService{
   }
 
   public list(filter = "All"){
-    return this.http.get(AppConfig.API_ENDPOINT + "user/list/" + filter).toPromise();
+    return this.http.get(environment.apiUrl + "user/list/" + filter).toPromise();
   }
 
   public containsRole(user :any, role: string) : boolean{
@@ -104,11 +103,11 @@ export class LoginService{
   }
 
   public reject(userId: any){
-    return this.http.post( AppConfig.API_ENDPOINT + "user/reject/" + userId, null, {responseType: 'text'}).toPromise();
+    return this.http.post( environment.apiUrl + "user/reject/" + userId, null, {responseType: 'text'}).toPromise();
   }
 
   public approve(userId: any){
-    return this.http.post( AppConfig.API_ENDPOINT + "user/approve/" + userId,null,{responseType: 'text'}).toPromise();
+    return this.http.post( environment.apiUrl + "user/approve/" + userId,null,{responseType: 'text'}).toPromise();
   }
 
 }

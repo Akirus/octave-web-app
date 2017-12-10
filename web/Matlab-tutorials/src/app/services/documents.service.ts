@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AppConfig } from "./AppConfig";
+import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable()
@@ -10,11 +10,11 @@ export class DocumentsService {
   }
 
   public getDocuments() {
-      return this.http.get(AppConfig.API_ENDPOINT + "documents/all").toPromise();
+      return this.http.get(environment.apiUrl + "documents/all").toPromise();
   }
 
   public document(id) {
-      return this.http.get(AppConfig.API_ENDPOINT + "documents/" + id).toPromise();
+      return this.http.get(environment.apiUrl + "documents/" + id).toPromise();
   }
 
 }

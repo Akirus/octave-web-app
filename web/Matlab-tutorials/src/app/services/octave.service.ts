@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { AppConfig } from "./AppConfig";
+import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable()
@@ -18,7 +18,7 @@ export class OctaveService {
   }
 
   public execute(sourceCode) {
-    return this.http.post(AppConfig.API_ENDPOINT + "octave/execute",
+    return this.http.post(environment.apiUrl + "octave/execute",
       {
         sourceCode: sourceCode
       })
