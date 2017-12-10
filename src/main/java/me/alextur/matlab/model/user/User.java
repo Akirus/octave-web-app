@@ -1,6 +1,7 @@
 package me.alextur.matlab.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +23,8 @@ public class User implements UserDetails{
     private String firstName;
     private String lastName;
     private String email;
+
+    private boolean isEnabled;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -86,9 +89,13 @@ public class User implements UserDetails{
     }
 
     @Override
-    @Transient
+    @Column(columnDefinition = "boolean default false")
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean pEnabled) {
+        isEnabled = pEnabled;
     }
 
     public String getFirstName() {

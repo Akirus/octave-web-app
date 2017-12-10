@@ -31,6 +31,14 @@ const appRoutes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
+    path: 'register-confirmation',
+    component: RegisterConfirmationComponent
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -55,6 +63,8 @@ import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
 import {AuthGuard} from "./services/AuthGuard";
 import { MyAccountComponent } from './components/my-account/my-account.component';
+import { RegisterComponent } from './components/register/register.component';
+import { RegisterConfirmationComponent } from './components/register-confirmation/register-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +77,9 @@ import { MyAccountComponent } from './components/my-account/my-account.component
     OctaveExecComponent,
     PlaygroundComponent,
     LoginComponent,
-    MyAccountComponent
+    MyAccountComponent,
+    RegisterComponent,
+    RegisterConfirmationComponent
   ],
   entryComponents: [
     OctaveExecComponent

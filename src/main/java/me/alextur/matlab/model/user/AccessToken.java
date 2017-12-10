@@ -1,5 +1,7 @@
 package me.alextur.matlab.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,6 +19,7 @@ public class AccessToken
     private String token;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @Column

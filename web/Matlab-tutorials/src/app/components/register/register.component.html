@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+      <h1 class="text-center login-title">Register to continue to Matlab tutorials</h1>
+      <div class="account-wall">
+
+        <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+             alt="">
+        <form #registerForm="ngForm" class="form-signin" (submit)="formSubmit(registerForm, $event)">
+          <div class="alert alert-danger" *ngIf="errorMessage" >
+            {{ errorMessage }}
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-6 {{firstNameInput.invalid && (firstNameInput.dirty || firstNameInput.touched) ? 'has-error' : ''}}">
+              First Name:
+              <input type="text" #firstNameInput="ngModel" [(ngModel)]="firstName" maxlength="254" name="firstName" class="form-control" placeholder="First Name" required autofocus>
+              <div class="error" *ngIf="firstNameInput.invalid && (firstNameInput.dirty || firstNameInput.touched)">
+                <div *ngIf="firstNameInput.errors.required">
+                  Field is required.
+                </div>
+                <div *ngIf="firstNameInput.errors.maxlength">
+                  Name must be no more than 255 characters long.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6 {{lastNameInput.invalid && (lastNameInput.dirty || lastNameInput.touched) ? 'has-error' : ''}}">
+              Last Name:
+              <input type="text" #lastNameInput="ngModel" [(ngModel)]="lastName" name="lastName" maxlength="254" class="form-control" placeholder="Last Name" required >
+              <div class="error" *ngIf="lastNameInput.invalid && (lastNameInput.dirty || lastNameInput.touched)">
+                <div *ngIf="lastNameInput.errors.required">
+                  Field is required.
+                </div>
+                <div *ngIf="lastNameInput.errors.maxlength">
+                  Name must be no more than 255 characters long.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            Role:
+            <select class="form-control" name="role" [(ngModel)]="role">
+              <option value="User">
+                User
+              </option>
+              <option value="Teacher">
+                Teacher
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group {{emailInput.invalid && (emailInput.dirty || emailInput.touched) ? 'has-error' : ''}}">
+            Email:
+            <input type="email" email="" #emailInput="ngModel" [(ngModel)]="email" name="email" class="form-control" placeholder="Email" required >
+            <div class="error" *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)">
+                Invalid email
+            </div>
+          </div>
+          <div class="form-group {{passwordInput.invalid && (passwordInput.dirty || passwordInput.touched) ? 'has-error' : ''}}">
+            Password:
+            <input type="password" minlength="4" maxlength="254" #passwordInput="ngModel" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" required>
+            <div class="error" *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)">
+              Invalid password
+            </div>
+          </div>
+          <div class="form-group {{(confirmInput.invalid || password != confirmPassword) && (confirmInput.dirty || confirmInput.touched) ? 'has-error' : ''}}">
+            Confirm Password:
+            <input type="password" maxlength="254" #confirmInput="ngModel" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+            <div class="error" *ngIf="(confirmInput.invalid || password != confirmPassword) && (confirmInput.dirty || confirmInput.touched)">
+              Password mismatch.
+            </div>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">
+            Create an account</button>
+        </form>
+      </div>
+      <a routerLink="/login" class="text-center new-account">Login </a>
+    </div>
+  </div>
+</div>

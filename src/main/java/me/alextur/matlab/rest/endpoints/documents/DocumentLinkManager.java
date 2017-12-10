@@ -11,8 +11,8 @@ public class DocumentLinkManager {
     public final static String ROOT_PATH = "documents";
     public final static String ALL_PATH = "all";
 
-    public String getLink(String id){
-        return String.format("%s/%s", ROOT_PATH, id);
+    public String getLink(Long id){
+        return String.format("%s/%d", ROOT_PATH, id);
     }
 
 }

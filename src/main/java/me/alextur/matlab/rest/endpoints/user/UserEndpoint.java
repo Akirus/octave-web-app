@@ -15,9 +15,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,11 +37,14 @@ public class UserEndpoint extends BaseEndpoint {
 
     private UserService userService;
     private AuthenticationManager authManager;
+    private Validator validator;
 
     public UserEndpoint(@Autowired UserService pUserService,
-                        @Autowired AuthenticationManager pAuthManager) {
+                        @Autowired AuthenticationManager pAuthManager,
+                        @Autowired Validator pValidator) {
         userService = pUserService;
         authManager = pAuthManager;
+        validator = pValidator;
     }
 
     @POST
@@ -57,13 +62,40 @@ public class UserEndpoint extends BaseEndpoint {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        AccessToken accessToken = this.userService.createAccessToken((User) principal);
+        AccessToken accessToken = userService.createAccessToken((User) principal);
+
+        if(accessToken == null){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("token", accessToken.getToken());
         result.put("expires", accessToken.getExpiry());
 
         return result;
+    }
+
+    @POST
+    @PermitAll
+    @Path("register")
+    @Transactional
+    public Object register(@Valid RegisterRequest pRegisterRequest){
+
+        User user = new User();
+
+        user.setUsername(pRegisterRequest.getUsername());
+        user.setEmail(pRegisterRequest.getEmail());
+        user.setFirstName(pRegisterRequest.getFirstName());
+        user.setLastName(pRegisterRequest.getLastName());
+
+        boolean registered = userService.register(user, pRegisterRequest.getPassword(), pRegisterRequest.getRole());
+
+        if(registered){
+            return Response.ok().build();
+        }
+        else{
+            return genericFail();
+        }
     }
 
     @GET
@@ -82,7 +114,7 @@ public class UserEndpoint extends BaseEndpoint {
 
     @POST
     @Path("update")
-    public Object update(UpdateRequest pUpdateRequest){
+    public Object update(@Valid UpdateRequest pUpdateRequest){
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication.getPrincipal() instanceof User)) {
             return Response.status(Response.Status.UNAUTHORIZED).build();

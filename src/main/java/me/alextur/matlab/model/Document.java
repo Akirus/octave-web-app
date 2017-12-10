@@ -1,5 +1,7 @@
 package me.alextur.matlab.model;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,19 +18,25 @@ public class Document {
 
     private String name;
 
+    @Lob
     private String content;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
 
-    public String getId() {
+    private DateTime creationDate;
+
+    private String fileName;
+
+    public Long getId() {
         return id;
     }
 
     @Transient
     private Map<String, Object> additionalData;
 
+    @Transient
     public Map<String, Object> getAdditionalData() {
         return additionalData;
     }
@@ -37,7 +45,7 @@ public class Document {
         additionalData = pAdditionalData;
     }
 
-    public void setId(String pId) {
+    public void setId(Long pId) {
         id = pId;
     }
 
@@ -55,5 +63,21 @@ public class Document {
 
     public void setContent(String pContent) {
         content = pContent;
+    }
+
+    public DateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(DateTime pCreationDate) {
+        creationDate = pCreationDate;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String pFileName) {
+        fileName = pFileName;
     }
 }

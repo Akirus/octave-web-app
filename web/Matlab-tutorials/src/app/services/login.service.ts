@@ -76,6 +76,10 @@ export class LoginService{
     });
   }
 
+  public register(formData){
+    return this.http.post( AppConfig.API_ENDPOINT + "user/register", formData, {responseType: 'text'}).toPromise();
+  }
+
   public logout(){
       this.authService.setToken('');
       this.authService.setTokenExpiry('');
