@@ -21,6 +21,7 @@ public class User implements UserDetails{
     private Set<Role> roles;
     private String firstName;
     private String lastName;
+    private String email;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -104,5 +105,13 @@ public class User implements UserDetails{
 
     public void setLastName(String pLastName) {
         lastName = pLastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String pEmail) {
+        email = pEmail;
     }
 }

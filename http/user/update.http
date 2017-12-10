@@ -1,0 +1,12 @@
+POST http://localhost:8080/user/update
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+Content-Type: application/json
+
+{
+	"firstName" : "Alex",
+	"email" : "AKirus@inbox.ru",
+	"lastName" : "Turchynovich",
+	"pasword" : "test"
+}
+
+###

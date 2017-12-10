@@ -98,6 +98,9 @@ public class UserEndpoint extends BaseEndpoint {
             if (pUpdateRequest.getLastName() != null) {
                 user.setLastName(pUpdateRequest.getLastName());
             }
+            if (pUpdateRequest.getEmail() != null){
+                user.setEmail(pUpdateRequest.getEmail());
+            }
 
             user = this.userService.updateUser(user);
 

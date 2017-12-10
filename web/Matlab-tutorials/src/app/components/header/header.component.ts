@@ -16,11 +16,28 @@ export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService,
               public loginService: LoginService) { }
 
+
+  private updateName(){
+    this.loginService.details().then((result : any) => {
+      this.firstName = result.firstName;
+      this.lastName = result.lastName;
+    })
+  }
+
   ngOnInit() {
-      this.loginService.details().then((result : any) => {
-          this.firstName = result.firstName;
-          this.lastName = result.lastName;
-      })
+      this.updateName();
+  }
+
+  private getFirstName(){
+    // this.updateName();
+
+    return this.firstName;
+  }
+
+  private getLastName(){
+    // this.updateName();
+
+    return this.lastName;
   }
 
 }

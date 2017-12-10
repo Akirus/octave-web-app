@@ -1,0 +1,9 @@
+GET http://localhost:8080/documents/all
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###
+
+GET http://localhost:8080/documents/2
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###

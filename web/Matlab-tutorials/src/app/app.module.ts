@@ -22,6 +22,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'my-account',
+    component: MyAccountComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'login',
     component: LoginComponent
   },
@@ -49,6 +54,7 @@ import {AuthService} from "./services/AuthService";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
 import {AuthGuard} from "./services/AuthGuard";
+import { MyAccountComponent } from './components/my-account/my-account.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +66,8 @@ import {AuthGuard} from "./services/AuthGuard";
     LessonComponent,
     OctaveExecComponent,
     PlaygroundComponent,
-    LoginComponent
+    LoginComponent,
+    MyAccountComponent
   ],
   entryComponents: [
     OctaveExecComponent

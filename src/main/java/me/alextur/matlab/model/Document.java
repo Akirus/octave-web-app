@@ -1,11 +1,13 @@
 package me.alextur.matlab.model;
 
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author Alex Turchynovich
  */
+@Entity
 public class Document {
 
     public Document() {
@@ -16,12 +18,15 @@ public class Document {
 
     private String content;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     public String getId() {
         return id;
     }
 
+    @Transient
     private Map<String, Object> additionalData;
 
     public Map<String, Object> getAdditionalData() {
