@@ -1,5 +1,6 @@
 package me.alextur.matlab.model;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Document {
     private String name;
 
     @Lob
+//    @Type(type="org.hibernate.type.MaterializedClobType")
     private String content;
 
     @Id

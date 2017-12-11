@@ -1,4 +1,4 @@
-package org.hibernate.dialect;
+package me.alextur.matlab.repository;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import org.hibernate.dialect.PostgreSQL82Dialect;
+import org.hibernate.dialect.PostgreSQL94Dialect;
 import org.hibernate.engine.jdbc.CharacterStream;
 import org.hibernate.type.descriptor.ValueExtractor;
 import org.hibernate.type.descriptor.WrapperOptions;
@@ -16,9 +18,10 @@ import org.hibernate.type.descriptor.sql.ClobTypeDescriptor;
 import org.hibernate.type.descriptor.sql.SqlTypeDescriptor;
 
 /**
+ * Lob fixes for postgres.
  * @author Lukasz Antoniak (lukasz dot antoniak at gmail dot com)
  */
-public class PostgreSQL84Dialect extends PostgreSQL82Dialect {
+public class PostgreSQLDialect extends PostgreSQL94Dialect {
 	private final static SqlTypeDescriptor CLOB_STREAMING_TYPE_DESCRIPTOR = new ClobTypeDescriptor() {
 		@Override
 		public <X> BasicBinder<X> getClobBinder(final JavaTypeDescriptor<X> javaTypeDescriptor) {
@@ -30,6 +33,15 @@ public class PostgreSQL84Dialect extends PostgreSQL82Dialect {
 					// Method PreparedStatement#setCharacterStream(int, Reader, long) is not yet implemented
 					// by PostgreSQL JDBC driver. Casting to integer required.
 					st.setCharacterStream( index, characterStream.asReader(), (int) characterStream.getLength() );
+				}
+
+				@Override
+				protected void doBind(CallableStatement st, X value, String name, WrapperOptions options) throws SQLException {
+
+					final CharacterStream characterStream = javaTypeDescriptor.unwrap( value, CharacterStream.class, options );
+					// Method PreparedStatement#setCharacterStream(int, Reader, long) is not yet implemented
+					// by PostgreSQL JDBC driver. Casting to integer required.
+					st.setCharacterStream( name, characterStream.asReader(), (int) characterStream.getLength() );
 				}
 			};
 		}
