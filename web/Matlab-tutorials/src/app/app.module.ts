@@ -73,6 +73,7 @@ import {TreeModule} from "ng2-tree";
 import {DocumentsService} from "./services/documents.service";
 import {LoginService} from "./services/login.service";
 import {OctaveService} from "./services/octave.service";
+import {GroupService} from "./services/group.service";
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import {OctaveService} from "./services/octave.service";
     DocumentsService,
     AuthService,
     LoginService,
-    OctaveService
+    OctaveService,
+    GroupService
 ],
   bootstrap: [AppComponent]
 })

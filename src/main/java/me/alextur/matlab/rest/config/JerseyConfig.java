@@ -5,6 +5,7 @@ import io.swagger.jaxrs.listing.ApiListingResource;
 import me.alextur.matlab.rest.auth.AuthFilter;
 import me.alextur.matlab.rest.auth.AuthenticationTokenProcessingFilter;
 import me.alextur.matlab.rest.endpoints.documents.DocumentsEndpoint;
+import me.alextur.matlab.rest.endpoints.group.GroupEndpoint;
 import me.alextur.matlab.rest.endpoints.octave.OctaveEndpoint;
 import me.alextur.matlab.rest.endpoints.user.UserEndpoint;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -25,6 +26,7 @@ public class JerseyConfig extends ResourceConfig {
         register(DocumentsEndpoint.class);
         register(OctaveEndpoint.class);
         register(UserEndpoint.class);
+        register(GroupEndpoint.class);
 //        configureSwagger();
     }
 

@@ -72,9 +72,20 @@ export class UsersTableComponent implements OnInit {
     this.canApprove = this.canApprove && anyNeedToBeApproved;
   }
 
-  dispalyRoles(roleArray){
+  displayRoles(roleArray){
     let names = roleArray.map(role => role.name);
     return names.join(',');
+  }
+
+  names = {
+    "Teacher" : "Преподаватель",
+    "Admin" : "Администратор",
+    "User" : "Студент"
+  };
+
+  translateRoles(roles){
+    let names = roles.split(',');
+    return names.map(name => this.names[name]).join(', ');
   }
 
 }

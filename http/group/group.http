@@ -1,0 +1,28 @@
+GET http://localhost:8080/groups/list
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
+
+###
+
+PUT http://localhost:8080/groups/group
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
+Content-Type: application/json
+
+{
+    "name" : "13 Группа (2018)"
+}
+###
+
+GET http://localhost:8080/groups/42/details
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
+
+###
+
+POST http://localhost:8080/groups/42/update
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
+Content-Type: application/json
+
+{
+    "name" : "13 Group"
+}
+
+###

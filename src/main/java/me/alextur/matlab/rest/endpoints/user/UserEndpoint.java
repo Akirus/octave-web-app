@@ -1,7 +1,9 @@
 package me.alextur.matlab.rest.endpoints.user;
 
 import me.alextur.matlab.model.user.AccessToken;
+import me.alextur.matlab.model.user.DefinedRole;
 import me.alextur.matlab.model.user.User;
+import me.alextur.matlab.repository.user.GroupRepository;
 import me.alextur.matlab.repository.user.UserRepository;
 import me.alextur.matlab.rest.BaseEndpoint;
 import me.alextur.matlab.rest.auth.PermitAll;
@@ -39,15 +41,18 @@ public class UserEndpoint extends BaseEndpoint {
     private AuthenticationManager authManager;
     private Validator validator;
     private UserRepository userRepository;
+    private GroupRepository groupRepository;
 
     public UserEndpoint(@Autowired UserService pUserService,
                         @Autowired AuthenticationManager pAuthManager,
                         @Autowired Validator pValidator,
-                        @Autowired UserRepository pUserRepository) {
+                        @Autowired UserRepository pUserRepository,
+                        @Autowired GroupRepository groupRepository) {
         userService = pUserService;
         authManager = pAuthManager;
         validator = pValidator;
         userRepository = pUserRepository;
+        this.groupRepository = groupRepository;
     }
 
     @POST
@@ -95,6 +100,10 @@ public class UserEndpoint extends BaseEndpoint {
         user.setEmail(pRegisterRequest.getEmail());
         user.setFirstName(pRegisterRequest.getFirstName());
         user.setLastName(pRegisterRequest.getLastName());
+
+        if(pRegisterRequest.getRole().equals(DefinedRole.User)){
+            user.setStudentGroup(groupRepository.findById(pRegisterRequest.getGroupId()));
+        }
 
         boolean registered = userService.register(user, pRegisterRequest.getPassword(), pRegisterRequest.getRole());
 

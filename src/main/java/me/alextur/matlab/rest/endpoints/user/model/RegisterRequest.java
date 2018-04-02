@@ -32,6 +32,8 @@ public class RegisterRequest {
     @Length(max = 255)
     private String lastName;
 
+    private Long groupId;
+
     private DefinedRole role = DefinedRole.User;
 
 
@@ -81,5 +83,13 @@ public class RegisterRequest {
 
     public void setRole(DefinedRole pRole) {
         role = pRole;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 }

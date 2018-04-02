@@ -1,5 +1,7 @@
 package me.alextur.matlab.rest.endpoints.documents.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * @author Alex Turchynovich
  */

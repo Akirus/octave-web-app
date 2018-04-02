@@ -43,12 +43,25 @@
             Роль*:
             <select class="form-control" name="role" [(ngModel)]="role">
               <option value="User">
-                User
+                Студент
               </option>
               <option value="Teacher">
-                Teacher
+                Преподаватель
               </option>
             </select>
+
+          </div>
+
+          <div class="form-group {{groupInput.invalid && (groupInput.dirty || groupInput.touched) ? 'has-error' : ''}}" *ngIf="role === 'User'" >
+            Группа*:
+            <select #groupInput="ngModel" class="form-control" name="studentGroup" [required]="role === 'User'" [(ngModel)]="studentGroup">
+              <option *ngFor="let group of groups" [ngValue]="group.id">{{group.name}}</option>
+            </select>
+            <div class="error" *ngIf="groupInput.invalid && (groupInput.dirty || groupInput.touched)">
+              <div *ngIf="groupInput.errors.required">
+                Поле обязательно к заполнению.
+              </div>
+            </div>
           </div>
 
           <div class="form-group {{emailInput.invalid && (emailInput.dirty || emailInput.touched) ? 'has-error' : ''}}">

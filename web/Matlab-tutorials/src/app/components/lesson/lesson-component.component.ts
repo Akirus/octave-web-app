@@ -64,8 +64,8 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
 
   delete() {
     let disposable = this.dialogService.addDialog(ConfirmModalComponent, {
-      title: 'Delete document',
-      message: 'Are you sure you want to delete document?'
+      title: 'Удалить документ?',
+      message: 'Вы уверены что хотите удалить документ?'
     })
       .subscribe((isConfirmed) => {
         //We get dialog result
