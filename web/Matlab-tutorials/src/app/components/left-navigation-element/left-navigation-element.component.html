@@ -1,0 +1,19 @@
+<li *ngFor="let lesson of lessons; let i = index" routerLinkActive="active" [class]="'lesson-li level'+level" >
+
+  <a *ngIf="lesson.type == 'Document'" draggable="true" href="" routerLink="/lesson/{{lesson.id}}" onclick="event.preventDefault()" (drop)="elementdrop(lesson, $event)" (dragover)="$event.preventDefault()" (dragstart)="elementdragstart(lesson, $event)" >
+    {{ lesson.name }} <a *ngIf="lesson.children && lesson.children.length > 0" data-toggle="collapse" [attr.data-target]="'#menu' + lesson.id" >
+    <i class="glyphicon glyphicon-chevron-right"></i></a>
+  </a>
+
+  <a *ngIf="lesson.type == 'Folder'" data-toggle="collapse" [attr.data-target]="'#menu' + lesson.id" draggable="true" href="" onclick="event.preventDefault()" (drop)="elementdrop(lesson, $event)" (dragover)="$event.preventDefault()" (dragstart)="elementdragstart(lesson, $event)" >
+    <i class="glyphicon glyphicon-folder-close"></i>
+    {{ lesson.name }}
+    <i class="glyphicon glyphicon-chevron-right"></i>
+  </a>
+
+  <ul class="app-left-navigation-element nav nav-stacked collapse" [id]="'menu'+lesson.id" *ngIf="lesson.children && lesson.children.length > 0"
+      [lessons]="lesson.children" [level]="level+1" [canEdit]="canEdit">
+  </ul>
+
+</li>
+

@@ -1,62 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { DocumentsService } from "../../services/documents.service";
 import {AuthService} from "../../services/AuthService";
 import {LoginService} from "../../services/login.service";
+import {NodeMenuItemAction, TreeComponent, TreeModel} from "ng2-tree";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-left-navigation',
   templateUrl: './left-navigation.component.html',
-  styleUrls: ["./left-navigation.component.css"],
-  providers: [DocumentsService, AuthService, LoginService]
+  styleUrls: ["./left-navigation.component.css"]
 })
-export class LeftNavigationComponent implements OnInit {
+export class LeftNavigationComponent implements OnInit, OnDestroy {
 
   lessons: any[];
-  canEdit: boolean = false;
+  subscription: Subscription;
+  canEdit: boolean;
 
   constructor(private documentsService: DocumentsService,
               public authService: AuthService,
               private loginService: LoginService) { }
 
-
-  up(index, event){
-    event.preventDefault();
-
-    let orderA = this.lessons[index-1].order;
-    let orderB = this.lessons[index].order;
-
-    this.documentsService.update(this.lessons[index-1].id, {
-      "order" : orderB
-    }).then(res => {
-
-      return this.documentsService.update(this.lessons[index].id, {
-        "order" : orderA
-      });
-    }).then( res => {
-      return this.documentsService.getDocuments();
-    }).then((result : any[]) => {
-      this.lessons = result;
-    });
-  }
-
-  down(index, event){
-    event.preventDefault();
-
-    let orderA = this.lessons[index+1].order;
-    let orderB = this.lessons[index].order;
-
-    this.documentsService.update(this.lessons[index+1].id, {
-      "order" : orderB
-    }).then(res => {
-      return this.documentsService.update(this.lessons[index].id, {
-        "order" : orderA
-      });
-    }).then( res => {
-      return this.documentsService.getDocuments();
-    }).then((result : any[]) => {
-      this.lessons = result;
-    });
-  }
 
   ngOnInit() {
     this.documentsService.getDocuments().then((result : any[]) => {
@@ -64,9 +27,31 @@ export class LeftNavigationComponent implements OnInit {
     }, error => {
 
     });
+
     this.loginService.details().then(result => {
       this.canEdit = this.loginService.isAdmin(result) || this.loginService.isTeacher(result);
     });
+
+    this.subscription = this.documentsService.documentsUpdated$.subscribe(next => {
+      this.documentsService.getDocuments().then((result : any[]) => {
+        this.lessons = result;
+      });
+    });
+  }
+
+  dropNone($event){
+    $event.preventDefault();
+    let id = $event.dataTransfer.getData("id");
+
+    this.documentsService.update(id, {
+      parentId: -1
+    }).then(value => {
+      this.documentsService.notifyUpdated();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

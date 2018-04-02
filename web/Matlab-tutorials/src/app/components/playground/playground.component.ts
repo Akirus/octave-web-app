@@ -5,7 +5,6 @@ import {OctaveService} from "../../services/octave.service";
   selector: 'app-playground',
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.css'],
-  providers: [OctaveService]
 })
 export class PlaygroundComponent implements OnInit {
 

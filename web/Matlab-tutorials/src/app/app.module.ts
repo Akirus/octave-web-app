@@ -58,7 +58,6 @@ import { OctaveExecComponent } from './components/octave-exec/octave-exec.compon
 import { PlaygroundComponent } from './components/playground/playground.component';
 import { TokenInterceptor } from "./services/TokenInterceptor";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {UnathorizedInterceptor} from "./services/UnathorizedInterceptor";
 import {AuthService} from "./services/AuthService";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
@@ -69,10 +68,16 @@ import { RegisterConfirmationComponent } from './components/register-confirmatio
 import { UsersTableComponent } from './components/users-table/users-table.component';
 import {BootstrapModalModule} from "ng2-bootstrap-modal";
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import {LeftNavigationElementComponent} from "./components/left-navigation-element/left-navigation-element.component";
+import {TreeModule} from "ng2-tree";
+import {DocumentsService} from "./services/documents.service";
+import {LoginService} from "./services/login.service";
+import {OctaveService} from "./services/octave.service";
 
 @NgModule({
   declarations: [
     AppComponent,
+    LeftNavigationElementComponent,
     LeftNavigationComponent,
     UsersComponent,
     HeaderComponent,
@@ -85,7 +90,7 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     RegisterComponent,
     RegisterConfirmationComponent,
     UsersTableComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
   ],
   entryComponents: [
     OctaveExecComponent,
@@ -99,7 +104,8 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     AceEditorModule,
     HttpClientModule,
     FormsModule,
-    BootstrapModalModule
+    BootstrapModalModule,
+    TreeModule
   ],
   providers: [
     {
@@ -108,8 +114,12 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
       multi: true
     },
     AuthService,
-    AuthGuard
-  ],
+    AuthGuard,
+    DocumentsService,
+    AuthService,
+    LoginService,
+    OctaveService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

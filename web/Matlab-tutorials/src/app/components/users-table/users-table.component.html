@@ -2,6 +2,7 @@
   <table class="table table-striped">
     <thead>
     <tr>
+      <th *ngIf="isTeacher">Username</th>
       <th *ngIf="isTeacher">Email</th>
       <th *ngIf="isTeacher">Role</th>
       <th>First Name</th>
@@ -12,6 +13,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let user of users">
+      <td *ngIf="isTeacher">{{user.username}}</td>
       <td *ngIf="isTeacher">{{user.email}}</td>
       <td *ngIf="isTeacher">
         <span class="label label-danger" *ngIf="dispalyRoles(user.roles).indexOf('Teacher') !== -1">!</span>

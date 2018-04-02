@@ -1,4 +1,4 @@
-package me.alextur.matlab.repository.document;
+package me.alextur.matlab.repository;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

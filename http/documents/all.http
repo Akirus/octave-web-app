@@ -8,6 +8,16 @@ X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
 
 ###
 
+GET http://localhost:8080/documents/tree
+Content-Type: application/json
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
+
+{
+
+}
+
+###
+
 POST http://localhost:8080/documents/13/update
 X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
 Content-Type: application/json
@@ -32,13 +42,23 @@ Content-Type: application/json
 ###
 
 PUT http://localhost:8080/documents/create
-X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
 Content-Type: application/json
 
 {
     "name" : "New Doc 2",
     "content" : "# Hi all",
-    "order" : 5
+    "order" : 5,
+    "parentId" : 17
+}
+###
+
+PUT http://localhost:8080/documents/folder
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
+Content-Type: application/json
+
+{
+    "name" : "Test Folder"
 }
 
 ###

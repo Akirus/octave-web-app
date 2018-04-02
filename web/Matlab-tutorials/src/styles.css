@@ -2,3 +2,28 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~font-awesome/css/font-awesome.css";
 
+
+.lesson-li.active{
+  background-color: ghostwhite !important;
+}
+.level2 {
+  margin-left: 20px !important;
+}
+.level3 {
+  margin-left: 35px !important;
+}
+.level4 {
+  margin-left: 45px !important;
+}
+.level5 {
+  margin-left: 55px !important;
+}
+.level6 {
+  margin-left: 65px !important;
+}
+.level7 {
+  margin-left: 75px !important;
+}
+.level8 {
+  margin-left: 85px !important;
+}

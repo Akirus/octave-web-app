@@ -6,7 +6,6 @@ import {Router} from "@angular/router";
   selector: 'octave-exec',
   templateUrl: './octave-exec.component.html',
   styleUrls: ['./octave-exec.component.css'],
-  providers : [OctaveService]
 })
 export class OctaveExecComponent implements OnInit {
   @Input() code: string;

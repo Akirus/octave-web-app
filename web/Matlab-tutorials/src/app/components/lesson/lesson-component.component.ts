@@ -16,8 +16,7 @@ import {ConfirmModalComponent} from "../confirm-modal/confirm-modal.component";
 @Component({
   selector: 'app-lesson-component',
   templateUrl: './lesson-component.component.html',
-  styleUrls: ['./lesson.component.css'],
-  providers: [DocumentsService, LoginService]
+  styleUrls: ['./lesson.component.css']
 })
 export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
 
@@ -59,10 +58,12 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
       .subscribe((isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {
+
           this.documentsService.delete(this.lessonId).then(result => {
-            location.href = '/playground';
+            this.documentsService.notifyUpdated();
+            this.router.navigateByUrl("/playground");
           }).catch(result => {
-            location.href = '/playground';
+            this.router.navigateByUrl("/playground");
           });
         }
       });
@@ -73,12 +74,21 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
     if(this.isNew){
       this.documentsService.create(this.lesson).then(result => {
         let res : any = result;
-        window.location.href = "/lesson/" + res.id;
+        // window.location.href = "/lesson/" + res.id;
+        this.isEditing = false;
+        this.isEditMode = false;
+        this.isNew = false;
+        this.documentsService.notifyUpdated();
+
+        this.router.navigateByUrl("/lesson/" + res.id);
       });
     }
     else {
       this.documentsService.update(this.lessonId, this.lesson).then(result => {
-        location.reload();
+        // location.reload();
+        this.isEditMode = false;
+        this.isEditing = false;
+        this.documentsService.notifyUpdated();
       });
     }
   }

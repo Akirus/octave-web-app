@@ -10,22 +10,16 @@ import java.util.Map;
 /**
  * @author Alex Turchynovich
  */
-@Entity
-public class Document {
+@Entity(name = "Document")
+public class Document extends TreeEntity{
 
     public Document() {
         this.additionalData = new HashMap<>();
     }
 
-    private String name;
-
     @Lob
 //    @Type(type="org.hibernate.type.MaterializedClobType")
     private String content;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
 
     private DateTime creationDate;
 
@@ -34,9 +28,6 @@ public class Document {
     @Column(name = "sort_order",nullable = true)
     private Integer order;
 
-    public Long getId() {
-        return id;
-    }
 
     @Transient
     private Map<String, Object> additionalData;
@@ -50,17 +41,6 @@ public class Document {
         additionalData = pAdditionalData;
     }
 
-    public void setId(Long pId) {
-        id = pId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String pName) {
-        name = pName;
-    }
 
     public String getContent() {
         return content;

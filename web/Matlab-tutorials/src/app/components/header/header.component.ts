@@ -4,8 +4,7 @@ import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  providers: [LoginService]
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent implements OnInit {
   title = 'Matlab Tutorials';

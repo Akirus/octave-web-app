@@ -1,17 +1,13 @@
-package me.alextur.matlab.repository.document;
+package me.alextur.matlab.repository.creators;
 
 import me.alextur.matlab.model.Document;
-import me.alextur.matlab.model.user.DefinedRole;
-import me.alextur.matlab.model.user.Role;
-import me.alextur.matlab.model.user.User;
-import me.alextur.matlab.repository.user.RoleRepository;
-import me.alextur.matlab.repository.user.UserRepository;
+import me.alextur.matlab.repository.document.DocumentRepository;
+import me.alextur.matlab.repository.DocumentStorageConfig;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Alex Turchynovich

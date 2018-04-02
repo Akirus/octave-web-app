@@ -5,7 +5,6 @@ import {LoginService} from "../../services/login.service";
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css'],
-  providers: [LoginService]
 })
 export class MyAccountComponent implements OnInit {
 

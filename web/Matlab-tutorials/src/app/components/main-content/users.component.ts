@@ -4,7 +4,6 @@ import {LoginService} from "../../services/login.service";
 @Component({
   selector: 'users',
   templateUrl: './users.component.html',
-  providers: [LoginService]
 })
 export class UsersComponent implements OnInit {
 
