@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
               private groupService: GroupService) { }
 
   ngOnInit() {
-    this.groupService.list().then(result => {
+    this.groupService.list().then((result: any[]) => {
       this.groups = result;
     })
   }
