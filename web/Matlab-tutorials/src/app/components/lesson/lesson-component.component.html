@@ -1,15 +1,15 @@
 <ul class="list-inline pull-right">
   <li *ngIf="isEditing && !isNew">
-    <button class="btn btn-primary" (click)="cancel()"> <span class="glyphicon glyphicon-erase" ></span> Cancel</button>
+    <button class="btn btn-primary" (click)="cancel()"> <span class="glyphicon glyphicon-erase" ></span> Отмена</button>
   </li>
   <li *ngIf="canEdit"><a title="Edit" class="btn btn-primary" (click)="toogleEditMode()"><span
-    class="glyphicon {{isEditMode ? 'glyphicon-eye-open' : 'glyphicon-edit'}} " ></span> {{isEditMode ? "Preview" : "Edit"}}</a></li>
+    class="glyphicon {{isEditMode ? 'glyphicon-eye-open' : 'glyphicon-edit'}} " ></span> {{isEditMode ? "Предпросмотр" : "Редактировать"}}</a></li>
   <li *ngIf="isEditing">
-    <button class="btn btn-success" (click)="save()"> <span class="glyphicon glyphicon-floppy-save" ></span> Save</button>
+    <button class="btn btn-success" (click)="save()"> <span class="glyphicon glyphicon-floppy-save" ></span> Сохранить</button>
   </li>
 
   <li *ngIf="canEdit && !isNew">
-    <button class="btn btn-danger" (click)="delete()"> <span class="glyphicon glyphicon-fire" ></span> Delete</button>
+    <button class="btn btn-danger" (click)="delete()"> <span class="glyphicon glyphicon-fire" ></span> Удалить</button>
   </li>
 </ul>
 
@@ -17,7 +17,7 @@
   <form>
     <div class="col-md-3">
       <div class="form-group">
-        Name: <input type="text" class="form-control" name="name" [(ngModel)]="lesson.name">
+        Имя: <input type="text" class="form-control" name="name" [(ngModel)]="lesson.name">
       </div>
     </div>
   </form>

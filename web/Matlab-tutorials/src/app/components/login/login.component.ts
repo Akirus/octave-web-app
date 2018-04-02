@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
       this.loginService.login(this.username, this.password).then(res => {
           window.location.href = '/playground';
       }).catch(error => {
-          this.errorMessage = "Invalid login or password";
+          this.errorMessage = "Неверный логин или пароль!";
           console.dir(error);
       });
       event.preventDefault();

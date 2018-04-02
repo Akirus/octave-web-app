@@ -47,7 +47,19 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   cancel() {
-    location.reload();
+    this.isEditMode = false;
+    this.isEditing = false;
+    this.isNew = false;
+
+    this.documentsService.document(this.lessonId).then(result => {
+        this.lesson = result;
+        this.isEditMode = false;
+        this.isEditing = false;
+        this.isNew = false;
+      },
+      err => {
+
+      });
   }
 
   delete() {

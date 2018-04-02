@@ -2,27 +2,27 @@
   <table class="table table-striped">
     <thead>
     <tr>
-      <th *ngIf="isTeacher">Username</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th *ngIf="isTeacher">Логин</th>
       <th *ngIf="isTeacher">Email</th>
-      <th *ngIf="isTeacher">Role</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th *ngIf="this.canApprove">Approve</th>
-      <th *ngIf="this.canApprove">Reject</th>
+      <th *ngIf="isTeacher">Роль</th>
+      <th *ngIf="this.canApprove">Потвердить</th>
+      <th *ngIf="this.canApprove">Удалить</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let user of users">
+      <td>{{user.firstName}}</td>
+      <td>{{user.lastName}}</td>
       <td *ngIf="isTeacher">{{user.username}}</td>
       <td *ngIf="isTeacher">{{user.email}}</td>
       <td *ngIf="isTeacher">
         <span class="label label-danger" *ngIf="dispalyRoles(user.roles).indexOf('Teacher') !== -1">!</span>
         {{ dispalyRoles(user.roles) }}
       </td>
-      <td>{{user.firstName}}</td>
-      <td>{{user.lastName}}</td>
-      <td *ngIf="this.canApprove && !user.enabled"><button (click)="approve(user)" class="btn btn-primary">Approve</button></td>
-      <td *ngIf="this.canApprove && !user.enabled"><button (click)="reject(user)" class="btn btn-danger">Reject</button></td>
+      <td *ngIf="this.canApprove && !user.enabled"><button (click)="approve(user)" class="btn btn-primary">Потвердить</button></td>
+      <td *ngIf="this.canApprove && !user.enabled"><button (click)="reject(user)" class="btn btn-danger">Удалить</button></td>
     </tr>
     </tbody>
   </table>

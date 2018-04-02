@@ -2,23 +2,23 @@
 
 <ul class="nav nav-stacked" *ngIf="authService.isAuthenticated()">
   <li class="nav-header" routerLinkActive="active">
-    <a routerLink="/users" ><i class="glyphicon glyphicon-list"></i> Users</a>
+    <a routerLink="/users" ><i class="glyphicon glyphicon-list"></i> Пользователи</a>
   </li>
   <li class="nav-header" routerLinkActive="active">
     <a routerLink="/playground" ><i class="glyphicon glyphicon-play-circle"></i> Playground</a>
   </li>
   <li class="nav-header" routerLinkActive="active">
-    <a routerLink="/my-account"><i class="glyphicon glyphicon-user"></i> My Account</a>
+    <a routerLink="/my-account"><i class="glyphicon glyphicon-user"></i> Мой профиль</a>
   </li>
   <li class="nav-header">
-    <a href="#" onclick="event.preventDefault()" (drop)="dropNone($event)" (dragover)="$event.preventDefault()" data-toggle="collapse" data-target="#menu2"> Lessons <i class="glyphicon glyphicon-chevron-right"></i>
+    <a href="#" onclick="event.preventDefault()" (drop)="dropNone($event)" (dragover)="$event.preventDefault()" data-toggle="collapse" data-target="#menu2"> Уроки <i class="glyphicon glyphicon-chevron-right"></i>
     </a>
     <ul class="app-left-navigation-element nav nav-stacked collapse in" id="menu2" [lessons]="lessons" [level]="1" [canEdit]="canEdit">
     </ul>
 
   </li>
   <li *ngIf="canEdit" routerLinkActive="active">
-    <a routerLink="/lesson/new"><span class="glyphicon glyphicon-duplicate"></span> New </a>
+    <a routerLink="/lesson/new"><span class="glyphicon glyphicon-duplicate"></span> Новый Урок </a>
   </li>
 </ul>
 
