@@ -60,10 +60,10 @@ public class UserRepositoryCreator {
 
     @Transactional()
     protected void createAdmin(Set<Role> pRoles){
-        User admin = userRepository.findByUsername("Admin");
+        User admin = userRepository.findByUsername("admin");
         if(admin == null){
             admin = new User();
-            admin.setUsername("Admin");
+            admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin123"));
             admin.setRoles(pRoles);
             admin.setEnabled(true);

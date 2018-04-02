@@ -2,6 +2,7 @@ package me.alextur.matlab.rest.endpoints.user;
 
 import me.alextur.matlab.model.user.AccessToken;
 import me.alextur.matlab.model.user.User;
+import me.alextur.matlab.repository.user.UserRepository;
 import me.alextur.matlab.rest.BaseEndpoint;
 import me.alextur.matlab.rest.auth.PermitAll;
 import me.alextur.matlab.rest.auth.PermitRoles;
@@ -37,13 +38,16 @@ public class UserEndpoint extends BaseEndpoint {
     private UserService userService;
     private AuthenticationManager authManager;
     private Validator validator;
+    private UserRepository userRepository;
 
     public UserEndpoint(@Autowired UserService pUserService,
                         @Autowired AuthenticationManager pAuthManager,
-                        @Autowired Validator pValidator) {
+                        @Autowired Validator pValidator,
+                        @Autowired UserRepository pUserRepository) {
         userService = pUserService;
         authManager = pAuthManager;
         validator = pValidator;
+        userRepository = pUserRepository;
     }
 
     @POST
@@ -51,8 +55,11 @@ public class UserEndpoint extends BaseEndpoint {
     @Path("login")
     @Transactional
     public Object login(LoginRequest pLoginRequest){
+
+        String username = pLoginRequest.getUsername().toLowerCase();
+
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(pLoginRequest.getUsername(), pLoginRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(username, pLoginRequest.getPassword());
         Authentication authentication = this.authManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -82,7 +89,9 @@ public class UserEndpoint extends BaseEndpoint {
 
         User user = new User();
 
-        user.setUsername(pRegisterRequest.getUsername());
+        String username = pRegisterRequest.getUsername().toLowerCase();
+
+        user.setUsername(username);
         user.setEmail(pRegisterRequest.getEmail());
         user.setFirstName(pRegisterRequest.getFirstName());
         user.setLastName(pRegisterRequest.getLastName());
@@ -107,6 +116,19 @@ public class UserEndpoint extends BaseEndpoint {
         }
 
         User user = (User) authentication.getPrincipal();
+
+        return user;
+    }
+
+    @GET
+    @Path("details/{userId}")
+    @PermitRoles(roles = {"Admin", "Teacher"})
+    @Transactional
+    public Object details(@PathParam("userId") long userId){
+        User user = userRepository.findById(userId);
+        if(user == null){
+            return badRequestFail("User not found!");
+        }
 
         return user;
     }

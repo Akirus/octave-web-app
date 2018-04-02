@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
+    User findById(Long id);
+
     List<User> findAllByEnabled(boolean pEnabled);
 
     boolean existsByUsername(String username);

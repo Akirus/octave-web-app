@@ -25,7 +25,7 @@ public class JerseyConfig extends ResourceConfig {
         register(DocumentsEndpoint.class);
         register(OctaveEndpoint.class);
         register(UserEndpoint.class);
-        configureSwagger();
+//        configureSwagger();
     }
 
     private void configureSwagger() {

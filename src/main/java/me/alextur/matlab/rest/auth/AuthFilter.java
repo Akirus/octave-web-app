@@ -62,7 +62,7 @@ public class AuthFilter implements ContainerRequestFilter {
 
     }
 
-    public boolean isUserLogined() {
+    private boolean isUserLogined() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         boolean anon = false;

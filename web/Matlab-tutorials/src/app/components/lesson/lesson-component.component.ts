@@ -70,7 +70,6 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   save() {
-
     if(this.isNew){
       this.documentsService.create(this.lesson).then(result => {
         let res : any = result;
@@ -102,6 +101,10 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
   ngOnInit(): void {
     this.sub = this.currentRoute.params.subscribe(params => {
       this.lessonId = params['id'];
+
+      this.isEditMode = false;
+      this.isEditing = false;
+      this.isNew = false;
 
       if(this.lessonId === 'new'){
         this.lesson = {
