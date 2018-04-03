@@ -7,5 +7,6 @@ public enum  UserListFilter {
 
     Active,
     All,
-    Pending
+    Pending,
+    WithoutGroup
 }

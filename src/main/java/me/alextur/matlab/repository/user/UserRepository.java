@@ -12,5 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByEnabled(boolean pEnabled);
 
+    List<User> findAllByStudentGroupIsNull();
+
     boolean existsByUsername(String username);
 }

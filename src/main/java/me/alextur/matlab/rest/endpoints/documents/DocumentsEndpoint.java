@@ -159,6 +159,7 @@ public class DocumentsEndpoint extends BaseEndpoint {
         }
 
         treeRepository.delete(result);
+        treeRepository.flush();
 
         return Response.ok().build();
     }

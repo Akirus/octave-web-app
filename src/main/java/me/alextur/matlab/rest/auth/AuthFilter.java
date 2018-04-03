@@ -1,5 +1,6 @@
 package me.alextur.matlab.rest.auth;
 
+import me.alextur.matlab.service.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +38,7 @@ public class AuthFilter implements ContainerRequestFilter {
             PermitRoles permitRoles = method.getAnnotation(PermitRoles.class);
 
             if(permitRoles != null) {
-                if (!isUserInRole(permitRoles.roles())) {
+                if (!UserService.isUserInRole(permitRoles.roles())) {
                     requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
                 }
             }
@@ -47,19 +48,6 @@ public class AuthFilter implements ContainerRequestFilter {
                 }
             }
         }
-    }
-
-    private boolean isUserInRole(final String[] pPermitRoles) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        Set<String> permitedRoles = new HashSet<>(Arrays.asList(pPermitRoles));
-
-        return authentication != null &&
-                authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(permitedRoles::contains);
-
     }
 
     private boolean isUserLogined() {

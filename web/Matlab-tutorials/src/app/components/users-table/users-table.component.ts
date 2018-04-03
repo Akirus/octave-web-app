@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LoginService} from "../../services/login.service";
+import {GroupService} from "../../services/group.service";
 
 @Component({
   selector: 'users-table',
@@ -10,6 +11,7 @@ import {LoginService} from "../../services/login.service";
 export class UsersTableComponent implements OnInit {
 
   @Input() filter: string;
+  @Input() groupId: string = null;
 
   usersList: any = [];
 
@@ -18,7 +20,8 @@ export class UsersTableComponent implements OnInit {
 
   private static refresh: boolean = false;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService,
+              private groupService: GroupService) { }
 
   get users(){
     if(UsersTableComponent.refresh){
@@ -32,12 +35,19 @@ export class UsersTableComponent implements OnInit {
     this.updateList();
   }
 
+  private getUsers(){
+    if(this.groupId == null){
+      return this.loginService.list(this.filter);
+    }
+    return this.groupService.students(this.groupId);
+  }
+
   updateList(){
     this.loginService.details().then(user => {
       this.canApprove = this.loginService.isAdmin(user) || this.loginService.isTeacher(user);
       this.isTeacher = this.loginService.isTeacher(user);
 
-      return this.loginService.list(this.filter);
+      return this.getUsers();
     }).then(result => {
       this.processList(result);
     });
@@ -45,7 +55,7 @@ export class UsersTableComponent implements OnInit {
 
   approve(user){
     return this.loginService.approve(user.id).then(result => {
-      return this.loginService.list(this.filter);
+      return this.getUsers();
     }).then( result => {
       this.processList(result);
     });
@@ -53,7 +63,7 @@ export class UsersTableComponent implements OnInit {
 
   reject(user){
     return this.loginService.reject(user.id).then(result => {
-      return this.loginService.list(this.filter);
+      return this.getUsers();
     }).then( result => {
       this.processList(result);
     });

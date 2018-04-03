@@ -74,6 +74,7 @@ import {DocumentsService} from "./services/documents.service";
 import {LoginService} from "./services/login.service";
 import {OctaveService} from "./services/octave.service";
 import {GroupService} from "./services/group.service";
+import {TextInputModal, TextInputModalComponent} from "./components/text-input-modal/text-input-modal";
 
 @NgModule({
   declarations: [
@@ -92,10 +93,12 @@ import {GroupService} from "./services/group.service";
     RegisterConfirmationComponent,
     UsersTableComponent,
     ConfirmModalComponent,
+    TextInputModalComponent
   ],
   entryComponents: [
     OctaveExecComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    TextInputModalComponent
   ],
   imports: [
     BrowserModule,

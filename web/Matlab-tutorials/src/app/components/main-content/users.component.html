@@ -14,7 +14,43 @@
       </ul>
       <div class="tab-content">
         <div class="tab-pane active well" id="userstab">
-          <users-table filter="Active"></users-table>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel" style="background-color: initial">
+                <ul class="nav nav-tabs" id="myTabGroups" style="background-color: #fff">
+                  <li *ngFor="let group of groups; index as i" [class]="i == 0 ? 'active' : ''">
+                    <a [href]="'#tabgroup'+group.id" data-toggle="tab">{{group.name}}</a>
+                  </li>
+                  <li *ngIf="canApprove"><a href="#withoutGroup" data-toggle="tab">Без группы</a></li>
+                  <li *ngIf="canApprove"><a href="#" (click)="createNewGroup($event)"><i class="glyphicon glyphicon-plus"></i> Новая группа</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div [id]="'tabgroup'+group.id" *ngFor="let group of groups; index as i" [class]="i == 0 ? 'tab-pane active well' : 'tab-pane well'" >
+                    <div class="row" *ngIf="canApprove">
+                      <div class="col-md-12">
+                        <ul class="list-inline" >
+                          <li>
+                            <a title="Edit" class="btn btn-primary" (click)="renameGroup(group)"><span
+                            class="glyphicon {{isEditMode ? 'glyphicon-eye-open' : 'glyphicon-edit'}}"></span> Переименовать</a>
+                          </li>
+                          <li>
+                            <button class="btn btn-danger" (click)="deleteGroup(group)"> <span class="glyphicon glyphicon-fire" ></span> Удалить</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <users-table [groupId]="group.id"></users-table>
+                  </div>
+                  <div class="tab-pane well" id="withoutGroup" *ngIf="canApprove">
+                    <users-table filter="WithoutGroup"></users-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--<users-table filter="Active"></users-table>-->
         </div>
         <div class="tab-pane well" id="pendindTab" *ngIf="canApprove">
           <users-table filter="Pending"></users-table>
@@ -22,6 +58,7 @@
       </div>
 
     </div>
+
 
   </div>
 </div>
