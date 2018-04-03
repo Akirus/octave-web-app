@@ -8,7 +8,7 @@
     <a routerLink="/playground" ><i class="glyphicon glyphicon-play-circle"></i> Playground</a>
   </li>
   <li class="nav-header" routerLinkActive="active">
-    <a routerLink="/my-account"><i class="glyphicon glyphicon-user"></i> Мой профиль</a>
+    <a [routerLink]="'/user/'+userId"><i class="glyphicon glyphicon-user"></i> Мой профиль</a>
   </li>
   <li class="nav-header">
     <a href="#" onclick="event.preventDefault()" (drop)="dropNone($event)" (dragover)="$event.preventDefault()" data-toggle="collapse" data-target="#menu2"> Уроки <i class="glyphicon glyphicon-chevron-right"></i>

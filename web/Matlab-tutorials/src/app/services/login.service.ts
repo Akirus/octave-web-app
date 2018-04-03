@@ -63,12 +63,32 @@ export class LoginService{
     }
   }
 
+  public detailsById(userId){
+    return this.http.get(environment.apiUrl + "user/details/" + userId).toPromise();
+}
+
   public update(details){
     return this.http.post( environment.apiUrl + "user/update", details).toPromise().then(result => {
       LoginService.userCache.set('user', result, 30000);
       return result;
     }).catch(reason => {
       LoginService.userCache.del('user');
+      return reason;
+    });
+  }
+
+  public updateById(userId,details){
+    return this.http.post( environment.apiUrl + "user/update/" + userId, details).toPromise().then(result => {
+      const user = LoginService.userCache.get('user');
+      if(user && user.id == userId) {
+        LoginService.userCache.set('user', result, 30000);
+      }
+      return result;
+    }).catch(reason => {
+      const user = LoginService.userCache.get('user');
+      if(user && user.id == userId) {
+        LoginService.userCache.del('user');
+      }
       return reason;
     });
   }

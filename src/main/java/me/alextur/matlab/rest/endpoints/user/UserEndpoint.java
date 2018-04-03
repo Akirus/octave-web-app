@@ -124,16 +124,17 @@ public class UserEndpoint extends BaseEndpoint {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        User user = (User) authentication.getPrincipal();
-
-        return user;
+        return (User) authentication.getPrincipal();
     }
 
     @GET
     @Path("details/{userId}")
-    @PermitRoles(roles = {"Admin", "Teacher"})
     @Transactional
     public Object details(@PathParam("userId") long userId){
+        if(!UserService.userHasAccessToAnotherUser(userId)){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
         User user = userRepository.findById(userId);
         if(user == null){
             return badRequestFail("User not found!");
@@ -143,17 +144,15 @@ public class UserEndpoint extends BaseEndpoint {
     }
 
     @POST
-    @Path("update")
-    public Object update(@Valid UpdateRequest pUpdateRequest){
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication.getPrincipal() instanceof User)) {
+    @Path("update/{userId}")
+    public Object update(@PathParam("userId") long userId, @Valid UpdateRequest pUpdateRequest){
+        if(!UserService.userHasAccessToAnotherUser(userId)){
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        User user = (User) authentication.getPrincipal();
+        User user = userRepository.findById(userId);
 
         if(pUpdateRequest != null) {
-
             if (pUpdateRequest.getFirstName() != null) {
                 user.setFirstName(pUpdateRequest.getFirstName());
             }
@@ -172,6 +171,19 @@ public class UserEndpoint extends BaseEndpoint {
         }
 
         return user;
+    }
+
+    @POST
+    @Path("update")
+    public Object update(@Valid UpdateRequest pUpdateRequest){
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
+        User user = (User) authentication.getPrincipal();
+
+        return update(user.getId(), pUpdateRequest);
     }
 
     @GET

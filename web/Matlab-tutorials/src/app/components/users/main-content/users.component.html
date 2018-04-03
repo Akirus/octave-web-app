@@ -22,7 +22,7 @@
                   <li *ngFor="let group of groups; index as i" [class]="i == 0 ? 'active' : ''">
                     <a [href]="'#tabgroup'+group.id" data-toggle="tab">{{group.name}}</a>
                   </li>
-                  <li *ngIf="canApprove"><a href="#withoutGroup" data-toggle="tab">Без группы</a></li>
+                  <li *ngIf="canApprove"><a href="#withoutGroup" data-toggle="tab"><i class="glyphicon glyphicon-folder-close"></i> Без группы</a></li>
                   <li *ngIf="canApprove"><a href="#" (click)="createNewGroup($event)"><i class="glyphicon glyphicon-plus"></i> Новая группа</a></li>
                 </ul>
                 <div class="tab-content">
@@ -32,7 +32,7 @@
                         <ul class="list-inline" >
                           <li>
                             <a title="Edit" class="btn btn-primary" (click)="renameGroup(group)"><span
-                            class="glyphicon {{isEditMode ? 'glyphicon-eye-open' : 'glyphicon-edit'}}"></span> Переименовать</a>
+                            class="glyphicon glyphicon-edit"></span> Переименовать</a>
                           </li>
                           <li>
                             <button class="btn btn-danger" (click)="deleteGroup(group)"> <span class="glyphicon glyphicon-fire" ></span> Удалить</button>

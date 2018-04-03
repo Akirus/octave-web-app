@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LoginService} from "../../services/login.service";
-import {GroupService} from "../../services/group.service";
+import {LoginService} from "../../../services/login.service";
+import {GroupService} from "../../../services/group.service";
 
 @Component({
   selector: 'users-table',
@@ -17,6 +17,8 @@ export class UsersTableComponent implements OnInit {
 
   canApprove: boolean;
   isTeacher: boolean;
+
+  filterLastName: string = "";
 
   private static refresh: boolean = false;
 
@@ -96,6 +98,19 @@ export class UsersTableComponent implements OnInit {
   translateRoles(roles){
     let names = roles.split(',');
     return names.map(name => this.names[name]).join(', ');
+  }
+
+  filterUsers(filterText){
+    return function(user) {
+      if (filterText.trim().length == 0) {
+        return true;
+      }
+      if(user.lastName){
+        return user.lastName.indexOf(filterText) !== -1;
+      }
+
+      return false;
+    }
   }
 
 }

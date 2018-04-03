@@ -1,5 +1,5 @@
 GET http://localhost:8080/user/details
-X-ACCESS-TOKEN: 5c4ab22d-e16b-4198-82a4-946be681351d
+X-ACCESS-TOKEN: 68c6820a-f6fd-4516-bf63-06a43f5c3d51
 
 ###
 GET http://localhost:8080/user/details/5

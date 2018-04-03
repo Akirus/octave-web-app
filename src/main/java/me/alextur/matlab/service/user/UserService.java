@@ -163,4 +163,18 @@ public class UserService implements UserDetailsService {
                         .anyMatch(permitedRoles::contains);
 
     }
+
+    public static boolean userHasAccessToAnotherUser(long userId){
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return false;
+        }
+
+        User currentUser = (User) authentication.getPrincipal();
+        if(currentUser.getId() != userId){
+            return UserService.isUserInRole("Teacher", "Admin");
+        }
+
+        return true;
+    }
 }

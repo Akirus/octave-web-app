@@ -11,7 +11,7 @@ import {MarkdownService} from "angular2-markdown";
 import {OctaveExecComponent} from "../octave-exec/octave-exec.component";
 import {LoginService} from "../../services/login.service";
 import {DialogService} from "ng2-bootstrap-modal";
-import {ConfirmModalComponent} from "../confirm-modal/confirm-modal.component";
+import {ConfirmModalComponent} from "../modal/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-lesson-component',

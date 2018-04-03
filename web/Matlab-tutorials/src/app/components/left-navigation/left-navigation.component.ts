@@ -15,6 +15,7 @@ export class LeftNavigationComponent implements OnInit, OnDestroy {
   lessons: any[];
   subscription: Subscription;
   canEdit: boolean;
+  userId: any;
 
   constructor(private documentsService: DocumentsService,
               public authService: AuthService,
@@ -30,6 +31,7 @@ export class LeftNavigationComponent implements OnInit, OnDestroy {
 
     this.loginService.details().then(result => {
       this.canEdit = this.loginService.isAdmin(result) || this.loginService.isTeacher(result);
+      this.userId = result.id;
     });
 
     this.subscription = this.documentsService.documentsUpdated$.subscribe(next => {

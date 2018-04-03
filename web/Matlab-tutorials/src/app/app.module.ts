@@ -23,7 +23,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'my-account',
+    path: 'user/:id',
     component: MyAccountComponent,
     canActivate: [AuthGuard]
   },
@@ -50,9 +50,9 @@ const appRoutes: Routes = [
 
 import { AppComponent } from './app.component';
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
-import { UsersComponent } from './components/main-content/users.component';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
+import { UsersComponent } from './components/users/main-content/users.component';
+import { HeaderComponent } from './components/layout/header/header.component';
+import { FooterComponent } from './components/layout/footer/footer.component';
 import { LessonComponent } from './components/lesson/lesson-component.component';
 import { OctaveExecComponent } from './components/octave-exec/octave-exec.component';
 import { PlaygroundComponent } from './components/playground/playground.component';
@@ -62,19 +62,20 @@ import {AuthService} from "./services/AuthService";
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from "@angular/forms";
 import {AuthGuard} from "./services/AuthGuard";
-import { MyAccountComponent } from './components/my-account/my-account.component';
+import { MyAccountComponent } from './components/users/my-account/my-account.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterConfirmationComponent } from './components/register-confirmation/register-confirmation.component';
-import { UsersTableComponent } from './components/users-table/users-table.component';
+import { UsersTableComponent } from './components/users/users-table/users-table.component';
 import {BootstrapModalModule} from "ng2-bootstrap-modal";
-import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from './components/modal/confirm-modal/confirm-modal.component';
 import {LeftNavigationElementComponent} from "./components/left-navigation-element/left-navigation-element.component";
 import {TreeModule} from "ng2-tree";
 import {DocumentsService} from "./services/documents.service";
 import {LoginService} from "./services/login.service";
 import {OctaveService} from "./services/octave.service";
 import {GroupService} from "./services/group.service";
-import {TextInputModal, TextInputModalComponent} from "./components/text-input-modal/text-input-modal";
+import {TextInputModal, TextInputModalComponent} from "./components/modal/text-input-modal/text-input-modal";
+import {CallbackPipe} from "./services/callback.pipe";
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import {TextInputModal, TextInputModalComponent} from "./components/text-input-m
     RegisterConfirmationComponent,
     UsersTableComponent,
     ConfirmModalComponent,
-    TextInputModalComponent
+    TextInputModalComponent,
+    CallbackPipe
   ],
   entryComponents: [
     OctaveExecComponent,

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginService} from "../../services/login.service";
-import {GroupService} from "../../services/group.service";
+import {LoginService} from "../../../services/login.service";
+import {GroupService} from "../../../services/group.service";
 import {DialogService} from "ng2-bootstrap-modal";
-import {TextInputModal, TextInputModalComponent} from "../text-input-modal/text-input-modal";
-import {ConfirmModalComponent} from "../confirm-modal/confirm-modal.component";
+import {TextInputModal, TextInputModalComponent} from "../../modal/text-input-modal/text-input-modal";
+import {ConfirmModalComponent} from "../../modal/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'users',
