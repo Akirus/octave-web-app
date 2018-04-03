@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
-import {LeftNavigationComponent} from "./components/left-navigation/left-navigation.component";
+import {LeftNavigationComponent} from "./components/layout/left-navigation/left-navigation.component";
 
 @Component({
   selector: 'app-root',

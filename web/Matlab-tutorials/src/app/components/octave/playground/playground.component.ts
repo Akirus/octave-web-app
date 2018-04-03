@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {OctaveService} from "../../services/octave.service";
+import {OctaveService} from "../../../services/octave.service";
 
 @Component({
   selector: 'app-playground',

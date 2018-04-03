@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { DocumentsService } from "../../services/documents.service";
-import {AuthService} from "../../services/AuthService";
-import {LoginService} from "../../services/login.service";
+import { DocumentsService } from "../../../services/documents.service";
+import {AuthService} from "../../../services/AuthService";
+import {LoginService} from "../../../services/login.service";
 import {Subscription} from "rxjs/src/Subscription";
 
 @Component({

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { DocumentsService } from "../../services/documents.service";
-import {AuthService} from "../../services/AuthService";
-import {LoginService} from "../../services/login.service";
+import { DocumentsService } from "../../../services/documents.service";
+import {AuthService} from "../../../services/AuthService";
+import {LoginService} from "../../../services/login.service";
 import {NodeMenuItemAction, TreeComponent, TreeModel} from "ng2-tree";
 import {Subscription} from "rxjs/Subscription";
 

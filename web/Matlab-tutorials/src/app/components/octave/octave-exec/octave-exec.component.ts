@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {OctaveService} from "../../services/octave.service";
+import {OctaveService} from "../../../services/octave.service";
 import {Router} from "@angular/router";
 
 @Component({

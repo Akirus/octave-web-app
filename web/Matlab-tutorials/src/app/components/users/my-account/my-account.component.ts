@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "../../../services/login.service";
-import {LessonComponent} from "../../lesson/lesson-component.component";
+import {LessonComponent} from "../../octave/lesson/lesson-component.component";
 import {ActivatedRoute, Route} from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ export class MyAccountComponent implements OnInit {
   lastName: string;
   email: string;
   userId: string;
-  user: any;
+  user: any = {};
   isAdmin: boolean;
 
   constructor(private loginService: LoginService,

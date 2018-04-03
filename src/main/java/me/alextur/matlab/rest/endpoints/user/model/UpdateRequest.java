@@ -21,6 +21,8 @@ public class UpdateRequest {
     @Length(max = 255)
     private String lastName;
 
+    private Long groupId;
+
     public String getEmail() {
         return email;
     }
@@ -51,5 +53,13 @@ public class UpdateRequest {
 
     public void setPassword(String pPassword) {
         password = pPassword;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 }

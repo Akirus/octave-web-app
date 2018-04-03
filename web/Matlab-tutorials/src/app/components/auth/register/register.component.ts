@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import {AbstractControl, FormControl, FormGroup} from "@angular/forms";
-import {LoginService} from "../../services/login.service";
+import {LoginService} from "../../../services/login.service";
 import {Router} from "@angular/router";
-import {GroupService} from "../../services/group.service";
+import {GroupService} from "../../../services/group.service";
 
 @Component({
   selector: 'app-register',

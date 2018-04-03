@@ -5,13 +5,13 @@ import {
 
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
-import {DocumentsService} from "../../services/documents.service";
+import {DocumentsService} from "../../../services/documents.service";
 
 import {MarkdownService} from "angular2-markdown";
 import {OctaveExecComponent} from "../octave-exec/octave-exec.component";
-import {LoginService} from "../../services/login.service";
+import {LoginService} from "../../../services/login.service";
 import {DialogService} from "ng2-bootstrap-modal";
-import {ConfirmModalComponent} from "../modal/confirm-modal/confirm-modal.component";
+import {ConfirmModalComponent} from "../../modal/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-lesson-component',
