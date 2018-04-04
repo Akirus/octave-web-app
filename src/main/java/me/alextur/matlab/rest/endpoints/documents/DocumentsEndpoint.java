@@ -2,6 +2,7 @@ package me.alextur.matlab.rest.endpoints.documents;
 
 import me.alextur.matlab.model.Folder;
 import me.alextur.matlab.model.TreeEntity;
+import me.alextur.matlab.model.user.User;
 import me.alextur.matlab.repository.document.DocumentRepository;
 import me.alextur.matlab.model.Document;
 import me.alextur.matlab.repository.document.TreeRepository;
@@ -11,6 +12,8 @@ import me.alextur.matlab.rest.endpoints.documents.model.ChangeDocumentRequest;
 import me.alextur.matlab.service.document.DocumentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -18,6 +21,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Alex Turchynovich
@@ -43,21 +47,18 @@ public class DocumentsEndpoint extends BaseEndpoint {
     }
 
     @GET
-    @Path(DocumentLinkManager.ALL_PATH)
-    public Response all(@DefaultValue("false") @QueryParam("withContent") boolean withContent) {
-        List<Document> documents = documentRepository.findAll(new Sort(Sort.Direction.ASC, "order"));
-        for(Document document : documents){
-            populateAddinationalData(document);
-        }
-
-        return Response.ok(documents).build();
-    }
-
-    @GET
     @Path("tree")
     public Response tree(@DefaultValue("false") @QueryParam("withContent") boolean withContent) {
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        User user = (User) authentication.getPrincipal();
+
         List<TreeEntity> documents = treeRepository.findByParentIsNullOrderByName();
-        documentsService.expandTree(documents);
+        documents = documentsService.accessFilterEntries(user, documents);
+
+        documentsService.expandTree(user, documents);
 
         return Response.ok(documents).build();
     }
@@ -66,9 +67,18 @@ public class DocumentsEndpoint extends BaseEndpoint {
     @Path("{id}")
     @Transactional
     public Response single(@PathParam("id") Long id) {
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        User user = (User) authentication.getPrincipal();
+
         Document result = documentRepository.findOne(id);
         if(result == null){
             return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if(!documentsService.hasAccessTo(user, result)){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
         populateAddinationalData(result);

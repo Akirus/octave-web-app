@@ -58,29 +58,38 @@ export class MyAccountComponent implements OnInit {
       lastName: this.lastName,
       email: this.email,
       groupId: undefined,
-      password: undefined
     };
 
     if(this.groupId){
       params.groupId = this.groupId;
     }
-    if(this.password.length > 0){
-      if(this.password !== this.passwordConfirm){
-        this.notificationService.error("", "Пароли не совпадают");
-        return;
-      }
-      else{
-        params.password = this.password;
-      }
-    }
 
     this.loginService.updateById(this.userId, params).then(result => {
         this.notificationService.success("", "Профиль успешно обновлен.")
-        this.password = "";
-        this.passwordConfirm = "";
     }, err => {
         this.notificationService.success("Ошибка", "Ошибка попробуйте позже.")
     });
   }
 
+  changePassword() {
+    if(this.password.length > 0){
+      if(this.password !== this.passwordConfirm){
+        this.notificationService.error("", "Пароли не совпадают");
+        return;
+      }
+    }
+
+    const params = {
+      password: this.password
+    };
+
+    this.loginService.updateById(this.userId, params).then(result => {
+      this.notificationService.success("", "Пароль успешно обновлен.")
+      this.password = "";
+      this.passwordConfirm = "";
+    }, err => {
+      this.notificationService.success("Ошибка", "Ошибка попробуйте позже.")
+    });
+
+  }
 }

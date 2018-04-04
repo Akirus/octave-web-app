@@ -150,14 +150,20 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-
     public static boolean isUserInRole(final String... pPermitRoles) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication.getPrincipal() instanceof User)) {
+            return false;
+        }
 
+        return isUserInRole((User)authentication.getPrincipal(), pPermitRoles);
+    }
+
+    public static boolean isUserInRole(User user, final String... pPermitRoles) {
         Set<String> permitedRoles = new HashSet<>(Arrays.asList(pPermitRoles));
 
-        return authentication != null &&
-                authentication.getAuthorities()
+        return user != null &&
+                user.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
                         .anyMatch(permitedRoles::contains);

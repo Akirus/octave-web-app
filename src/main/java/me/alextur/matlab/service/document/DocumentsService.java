@@ -3,15 +3,21 @@ package me.alextur.matlab.service.document;
 import me.alextur.matlab.model.Document;
 import me.alextur.matlab.model.Folder;
 import me.alextur.matlab.model.TreeEntity;
+import me.alextur.matlab.model.user.Role;
+import me.alextur.matlab.model.user.StudentGroup;
+import me.alextur.matlab.model.user.User;
 import me.alextur.matlab.repository.document.DocumentRepository;
 import me.alextur.matlab.repository.document.FolderRepository;
 import me.alextur.matlab.repository.document.TreeRepository;
+import me.alextur.matlab.service.user.UserService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -32,12 +38,15 @@ public class DocumentsService {
         folderRepository = pFolderRepository;
     }
 
-    public List<TreeEntity> expandTree(List<TreeEntity> rootDocuments){
+    public List<TreeEntity> expandTree(final User user, List<TreeEntity> rootDocuments){
         for(TreeEntity treeEntity : rootDocuments){
             List<TreeEntity> children = treeRepository.getChildren(treeEntity.getId());
+
+            children = accessFilterEntries(user, children);
+
             if(children != null){
                 treeEntity.setChildren(children);
-                expandTree(children);
+                expandTree(user, children);
             }
         }
 
@@ -71,5 +80,32 @@ public class DocumentsService {
         }
 
         return folderRepository.saveAndFlush(result);
+    }
+
+    public boolean hasAccessTo(User user, TreeEntity treeEntity){
+        if(UserService.isUserInRole(user, "Teacher")){
+            return true;
+        }
+
+        String[] roleNames = treeEntity.getAllowedRolesNames();
+
+        if(roleNames.length > 0){
+            if(!UserService.isUserInRole(user, roleNames)){
+                return false;
+            }
+        }
+
+        Set<StudentGroup> allowedGroups = treeEntity.getAllowedGroups();
+        if(allowedGroups != null && !allowedGroups.isEmpty()){
+            return allowedGroups.contains(user.getStudentGroup());
+        }
+
+        return true;
+    }
+
+    public List<TreeEntity> accessFilterEntries(final User user, final List<TreeEntity> documents) {
+        return documents.stream()
+                .filter(document -> this.hasAccessTo(user, document))
+                .collect(Collectors.toList());
     }
 }
