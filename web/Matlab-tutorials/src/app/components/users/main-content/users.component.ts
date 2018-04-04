@@ -4,6 +4,7 @@ import {GroupService} from "../../../services/group.service";
 import {DialogService} from "ng2-bootstrap-modal";
 import {TextInputModal, TextInputModalComponent} from "../../modal/text-input-modal/text-input-modal";
 import {ConfirmModalComponent} from "../../modal/confirm-modal/confirm-modal.component";
+import {NotificationsService} from "angular2-notifications";
 
 @Component({
   selector: 'users',
@@ -17,7 +18,8 @@ export class UsersComponent implements OnInit {
 
   constructor(private loginService : LoginService,
               private groupService: GroupService,
-              private dialogService: DialogService) { }
+              private dialogService: DialogService,
+              private notificationService: NotificationsService) { }
 
   ngOnInit() {
     this.loginService.details().then(user => {
@@ -44,6 +46,8 @@ export class UsersComponent implements OnInit {
           name: result
         }).then(result => {
           this.updateGroups();
+        }, err => {
+          this.notificationService.error("Ошибка", "Ошибка попробуйте позже");
         })
       }
     });
@@ -77,6 +81,7 @@ export class UsersComponent implements OnInit {
           this.groupService.delete(group.id).then(result => {
             return this.updateGroups();
           }).catch(result => {
+            this.notificationService.error("Ошибка", "Ошибка попробуйте позже");
             return this.updateGroups();
           });
         }

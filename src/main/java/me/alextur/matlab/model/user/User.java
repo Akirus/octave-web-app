@@ -143,4 +143,14 @@ public class User implements UserDetails{
 
         return "";
     }
+
+    @Transient
+    public Long getStudentGroupId(){
+        StudentGroup group = getStudentGroup();
+        if(group != null){
+            return group.getId();
+        }
+
+        return 0L;
+    }
 }

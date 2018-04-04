@@ -42,4 +42,11 @@ public class StudentGroup {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+    @PreRemove
+    private void preRemove(){
+        for(User user : getUsers()){
+            user.setStudentGroup(null);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package me.alextur.matlab.rest.endpoints.user;
 
 import me.alextur.matlab.model.user.AccessToken;
 import me.alextur.matlab.model.user.DefinedRole;
+import me.alextur.matlab.model.user.StudentGroup;
 import me.alextur.matlab.model.user.User;
 import me.alextur.matlab.repository.user.GroupRepository;
 import me.alextur.matlab.repository.user.UserRepository;
@@ -161,6 +162,13 @@ public class UserEndpoint extends BaseEndpoint {
             }
             if (pUpdateRequest.getEmail() != null){
                 user.setEmail(pUpdateRequest.getEmail());
+            }
+
+            if(pUpdateRequest.getGroupId() != null){
+                StudentGroup group = groupRepository.findById(pUpdateRequest.getGroupId());
+                if(group != null){
+                    user.setStudentGroup(group);
+                }
             }
 
             user = this.userService.updateUser(user);

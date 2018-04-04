@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {AuthService} from "./AuthService";
 
 import * as Cache from 'js-cache';
+import {Subject} from "rxjs/Subject";
 
 @Injectable()
 export class LoginService{
@@ -26,10 +27,14 @@ export class LoginService{
         this.authService.setTokenExpiry(result.expires.toString());
 
         LoginService.userCache.del('user');
+        this.userUpdate.next(Math.random());
 
         return result;
     });
   }
+
+  private userUpdate: Subject<number> = new Subject<number>();
+  public userUpdateObservable = this.userUpdate.asObservable();
 
   private resolvingDetails: boolean = false;
   private detailsPromise: any;
@@ -53,10 +58,12 @@ export class LoginService{
 
       return this.detailsPromise.then(result => {
         LoginService.userCache.set('user', result, 60000);
+        this.userUpdate.next(Math.random());
         this.resolvingDetails = false;
         return result;
       }).catch(reason => {
         LoginService.userCache.del('user');
+        this.userUpdate.next(Math.random());
         this.resolvingDetails = false;
         return reason;
       });
@@ -70,9 +77,11 @@ export class LoginService{
   public update(details){
     return this.http.post( environment.apiUrl + "user/update", details).toPromise().then(result => {
       LoginService.userCache.set('user', result, 30000);
+      this.userUpdate.next(Math.random());
       return result;
     }).catch(reason => {
       LoginService.userCache.del('user');
+      this.userUpdate.next(Math.random());
       return reason;
     });
   }
@@ -82,12 +91,14 @@ export class LoginService{
       const user = LoginService.userCache.get('user');
       if(user && user.id == userId) {
         LoginService.userCache.set('user', result, 30000);
+        this.userUpdate.next(Math.random());
       }
       return result;
     }).catch(reason => {
       const user = LoginService.userCache.get('user');
       if(user && user.id == userId) {
         LoginService.userCache.del('user');
+        this.userUpdate.next(Math.random());
       }
       return reason;
     });
@@ -101,6 +112,7 @@ export class LoginService{
       this.authService.setToken('');
       this.authService.setTokenExpiry('');
       LoginService.userCache.del('user');
+    this.userUpdate.next(Math.random());
   }
 
   public list(filter = "All"){

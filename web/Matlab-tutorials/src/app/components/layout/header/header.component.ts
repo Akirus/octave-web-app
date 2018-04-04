@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../../../services/AuthService";
 import {LoginService} from "../../../services/login.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   title = 'Matlab Tutorials';
 
   firstName: any;
   lastName: any;
+
+  updateSub: Subscription;
 
   constructor(public authService: AuthService,
               public loginService: LoginService) { }
@@ -25,17 +28,20 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
       this.updateName();
+      this.updateSub = this.loginService.userUpdateObservable.subscribe(next => {
+          this.updateName();
+      });
+  }
+
+  ngOnDestroy() {
+    this.updateSub.unsubscribe();
   }
 
   private getFirstName(){
-    // this.updateName();
-
     return this.firstName;
   }
 
   private getLastName(){
-    // this.updateName();
-
     return this.lastName;
   }
 

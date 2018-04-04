@@ -22,7 +22,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let user of users | callback: filterUsers(filterLastName)">
-          <td><a [routerLink]="'/user/' + user.id">{{user.firstName}}</a></td>
+          <td *ngIf="isTeacher"><a [routerLink]="'/user/' + user.id">{{user.firstName}}</a></td>
+          <td *ngIf="!isTeacher">{{user.firstName}}</td>
           <td>{{user.lastName}}</td>
           <th>{{user.studentGroupName}}</th>
           <td *ngIf="isTeacher">{{user.username}}</td>

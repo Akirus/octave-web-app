@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LoginService} from "../../../services/login.service";
 import {GroupService} from "../../../services/group.service";
+import {NotificationsService} from "angular2-notifications";
 
 @Component({
   selector: 'users-table',
@@ -23,7 +24,8 @@ export class UsersTableComponent implements OnInit {
   private static refresh: boolean = false;
 
   constructor(private loginService: LoginService,
-              private groupService: GroupService) { }
+              private groupService: GroupService,
+              private notificationService: NotificationsService) { }
 
   get users(){
     if(UsersTableComponent.refresh){

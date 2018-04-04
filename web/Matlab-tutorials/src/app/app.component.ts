@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {LeftNavigationComponent} from "./components/layout/left-navigation/left-navigation.component";
+import {NotificationsService, Options} from "angular2-notifications";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,6 @@ import {LeftNavigationComponent} from "./components/layout/left-navigation/left-
 export class AppComponent {
 
   constructor(public router: Router){
-
   }
 
   isLoginPage(): boolean{
