@@ -7,15 +7,15 @@ import me.alextur.matlab.model.user.User;
 
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class TreeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
@@ -23,13 +23,23 @@ public class TreeEntity {
     private Set<Role> allowedRoles;
     private Set<StudentGroup> allowedGroups;
 
-    @OneToOne
-    @JsonIgnore
     private TreeEntity parent;
 
-    @Transient
     private List<TreeEntity> children;
 
+    private Map<String, Object> additionalData = new HashMap<>();
+
+    @Transient
+    public Map<String, Object> getAdditionalData() {
+        return additionalData;
+    }
+
+    public void setAdditionalData(Map<String, Object> pAdditionalData) {
+        additionalData = pAdditionalData;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -46,6 +56,8 @@ public class TreeEntity {
         name = pName;
     }
 
+    @OneToOne
+    @JsonIgnore
     public TreeEntity getParent() {
         return parent;
     }
@@ -54,6 +66,7 @@ public class TreeEntity {
         this.parent = parent;
     }
 
+    @Transient
     public List<TreeEntity> getChildren() {
         return children;
     }
@@ -95,7 +108,9 @@ public class TreeEntity {
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "tree_group",  joinColumns = @JoinColumn(name = "tree_entity_id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    @JoinTable(name = "tree_group",
+            joinColumns = @JoinColumn(name = "tree_entity_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
     @JsonIgnore
     public Set<StudentGroup> getAllowedGroups() {
         return allowedGroups;

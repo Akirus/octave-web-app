@@ -21,6 +21,31 @@
       </div>
     </div>
   </form>
+  <div class="col-md-12">
+    <div class="panel-group">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <a data-toggle="collapse" href="#visibilityPanel">Доступность <i class="glyphicon glyphicon-chevron-down"></i> </a>
+          </div>
+        </div>
+        <div id="visibilityPanel" class="panel-collapse collapse">
+          <div class="panel-body">
+            <form name="visibilityForm">
+              Документ доступен:<br>
+              <input type="radio" [(ngModel)]="visibility" name="visible" value="All" checked> Всем<br>
+              <input type="radio" [(ngModel)]="visibility" name="visible" value="Teacher"> Только Преподавателям<br>
+              <input type="radio" [(ngModel)]="visibility" name="visible" value="Groups"> Только группам:
+
+              <angular2-multiselect name="select" *ngIf="visibility === 'Groups'" [data]="groups" [(ngModel)]="selectedGroups" [settings]="dropdownSettings">
+
+              </angular2-multiselect>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div *ngIf="lesson.content && !isEditMode">

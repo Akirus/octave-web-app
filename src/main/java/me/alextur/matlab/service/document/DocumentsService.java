@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -95,9 +94,14 @@ public class DocumentsService {
             }
         }
 
-        Set<StudentGroup> allowedGroups = treeEntity.getAllowedGroups();
-        if(allowedGroups != null && !allowedGroups.isEmpty()){
-            return allowedGroups.contains(user.getStudentGroup());
+
+        if(treeEntity.getAllowedGroups() != null){
+            Set<Long> allowedGroupsIds = treeEntity.getAllowedGroups().stream()
+                    .map(StudentGroup::getId)
+                    .collect(Collectors.toSet());
+            if(!allowedGroupsIds.isEmpty()) {
+                return allowedGroupsIds.contains(user.getStudentGroup().getId());
+            }
         }
 
         return true;
@@ -108,4 +112,14 @@ public class DocumentsService {
                 .filter(document -> this.hasAccessTo(user, document))
                 .collect(Collectors.toList());
     }
+
+    public Map<String, Object> getVisibility(TreeEntity document){
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("groups", new HashSet<>(document.getAllowedGroups()));
+        result.put("roles", new HashSet<>(document.getAllowedRoles()));
+
+        return result;
+    }
+
 }

@@ -13,35 +13,14 @@ import java.util.Map;
 @Entity(name = "Document")
 public class Document extends TreeEntity{
 
-    public Document() {
-        this.additionalData = new HashMap<>();
-    }
 
-    @Lob
-//    @Type(type="org.hibernate.type.MaterializedClobType")
     private String content;
 
     private DateTime creationDate;
 
     private String fileName;
 
-    @Column(name = "sort_order",nullable = true)
-    private Integer order;
-
-
-    @Transient
-    private Map<String, Object> additionalData;
-
-    @Transient
-    public Map<String, Object> getAdditionalData() {
-        return additionalData;
-    }
-
-    public void setAdditionalData(Map<String, Object> pAdditionalData) {
-        additionalData = pAdditionalData;
-    }
-
-
+    @Lob
     public String getContent() {
         return content;
     }
@@ -64,13 +43,5 @@ public class Document extends TreeEntity{
 
     public void setFileName(String pFileName) {
         fileName = pFileName;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer pOrder) {
-        order = pOrder;
     }
 }

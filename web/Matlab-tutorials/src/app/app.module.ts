@@ -78,6 +78,7 @@ import {TextInputModal, TextInputModalComponent} from "./components/modal/text-i
 import {CallbackPipe} from "./services/callback.pipe";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Options, SimpleNotificationsModule} from "angular2-notifications";
+import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 
 const notificationOptions: Options = {
   timeOut: 3000
@@ -119,7 +120,8 @@ const notificationOptions: Options = {
     BootstrapModalModule,
     TreeModule,
     BrowserAnimationsModule,
-    SimpleNotificationsModule.forRoot(notificationOptions)
+    SimpleNotificationsModule.forRoot(notificationOptions),
+    AngularMultiSelectModule
   ],
   providers: [
     {

@@ -12,6 +12,8 @@ import {OctaveExecComponent} from "../octave-exec/octave-exec.component";
 import {LoginService} from "../../../services/login.service";
 import {DialogService} from "ng2-bootstrap-modal";
 import {ConfirmModalComponent} from "../../modal/confirm-modal/confirm-modal.component";
+import {GroupService} from "../../../services/group.service";
+import {NotificationsService} from "angular2-notifications";
 
 @Component({
   selector: 'app-lesson-component',
@@ -30,6 +32,16 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
   isEditing: boolean = false;
   canEdit: boolean = false;
   isNew: boolean = false;
+  groups: any[] = [];
+  selectedGroups = [];
+  visibility: string;
+
+  dropdownSettings = {
+    text:"Выберете группы",
+    selectAllText:'Выбрать все',
+    unSelectAllText:'Убрать все',
+    labelKey: "name"
+  };
 
   constructor(private currentRoute: ActivatedRoute,
               private documentsService: DocumentsService,
@@ -38,7 +50,9 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
               private _injector: Injector,
               private loginService: LoginService,
               private dialogService: DialogService,
-              private router: Router) {
+              private router: Router,
+              private groupService: GroupService,
+              private notificationService: NotificationsService) {
   }
 
   toogleEditMode() {
@@ -46,20 +60,33 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
     this.isEditing = true;
   }
 
-  cancel() {
-    this.isEditMode = false;
-    this.isEditing = false;
-    this.isNew = false;
-
-    this.documentsService.document(this.lessonId).then(result => {
+  reloadDocument() {
+    return this.documentsService.document(this.lessonId).then((result:any) => {
         this.lesson = result;
-        this.isEditMode = false;
-        this.isEditing = false;
-        this.isNew = false;
+        let visibility = result.additionalData.visibility;
+        this.selectedGroups = visibility.groups;
+        if(visibility.roles.map(role => role.name).includes("Teacher")){
+          this.visibility = "Teacher";
+        }
+        else if(visibility.groups.length > 0){
+          this.visibility = "Groups";
+        }
+        else{
+          this.visibility = "All";
+        }
+
+        return result;
       },
       err => {
 
       });
+  }
+
+  cancel() {
+    this.isEditMode = false;
+    this.isEditing = false;
+    this.isNew = false;
+    this.reloadDocument();
   }
 
   delete() {
@@ -83,6 +110,20 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
   }
 
   save() {
+
+    if(this.visibility === 'All'){
+      this.lesson.allowedGroupIds = [];
+      this.lesson.allowedRoles = [];
+    }
+    else if(this.visibility === 'Teacher'){
+      this.lesson.allowedRoles = [ "Teacher" ];
+      this.lesson.allowedGroupIds = this.selectedGroups.map(group => group.id);
+    }
+    else if(this.visibility === 'Groups'){
+      this.lesson.allowedGroupIds = this.selectedGroups.map(group => group.id);
+      this.lesson.allowedRoles = [];
+    }
+
     if(this.isNew){
       this.documentsService.create(this.lesson).then(result => {
         let res : any = result;
@@ -92,6 +133,8 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
         this.isNew = false;
         this.documentsService.notifyUpdated();
 
+        this.notificationService.success("", "Документ успешно сохранен!")
+
         this.router.navigateByUrl("/lesson/" + res.id);
       });
     }
@@ -100,6 +143,7 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
         // location.reload();
         this.isEditMode = false;
         this.isEditing = false;
+        this.notificationService.success("", "Документ успешно сохранен!")
         this.documentsService.notifyUpdated();
       });
     }
@@ -139,18 +183,18 @@ export class LessonComponent implements OnInit, OnDestroy, AfterContentChecked {
         this.isEditing = true;
       }
       else {
-
-        this.documentsService.document(this.lessonId).then(result => {
-            this.lesson = result;
-          },
-          err => {
-
-          });
+        this.reloadDocument();
       }
     });
 
     this.loginService.details().then(result => {
       this.canEdit = this.loginService.isAdmin(result) || this.loginService.isTeacher(result);
+
+      if(this.canEdit){
+        this.groupService.list().then((result:any[]) => {
+          this.groups = result;
+        });
+      }
     });
 
     this.initCodeRender();
