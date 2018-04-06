@@ -51,20 +51,22 @@ public class DocumentsAutoCreator {
         Files.list(Paths.get(directory)).forEach(pPath -> {
             String fileName = pPath.getFileName().toString();
             String name = fileName.substring(0, fileName.lastIndexOf('.'));
+            String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+            if(ext.endsWith(".md")) {
+                if (!documentRepository.existsByFileName(name)) {
+                    Document document = new Document();
+                    document.setName(name);
+                    document.setFileName(name);
+                    document.setCreationDate(DateTime.now());
 
-            if(!documentRepository.existsByFileName(name)){
-                Document document = new Document();
-                document.setName(name);
-                document.setFileName(name);
-                document.setCreationDate(DateTime.now());
+                    try {
+                        document.setContent(new String(Files.readAllBytes(pPath)));
+                    } catch (IOException pE) {
+                        logger.error("unable to read file", pE);
+                    }
 
-                try {
-                    document.setContent(new String(Files.readAllBytes(pPath)));
-                } catch (IOException pE) {
-                    logger.error("unable to read file", pE);
+                    toCreate.add(document);
                 }
-
-                toCreate.add(document);
             }
         });
 
