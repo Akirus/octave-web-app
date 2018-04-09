@@ -1,27 +1,25 @@
 import {
-  Component, OnDestroy, OnInit, ComponentFactoryResolver, Injector, AfterViewInit,
-  AfterContentChecked
-} from '@angular/core';
+  Component, ComponentFactoryResolver, Injector} from '@angular/core';
 
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
 import {DocumentsService} from "../../../services/documents.service";
 
 import {MarkdownService} from "angular2-markdown";
-import {OctaveExecComponent} from "../octave-exec/octave-exec.component";
 import {LoginService} from "../../../services/login.service";
 import {DialogService} from "ng2-bootstrap-modal";
 import {ConfirmModalComponent} from "../../modal/confirm-modal/confirm-modal.component";
 import {GroupService} from "../../../services/group.service";
 import {NotificationsService} from "angular2-notifications";
 import {BaseDocumentComponent} from "../baseDocument";
+import {TestsService} from "../../../services/tests.service";
 
 @Component({
-  selector: 'app-lesson-component',
-  templateUrl: './lesson-component.component.html',
-  styleUrls: ['./lesson.component.css']
+  selector: 'app-test-component',
+  templateUrl: './test.component.html',
+  styleUrls: ['./test.component.css']
 })
-export class LessonComponent extends BaseDocumentComponent {
+export class TestComponent extends BaseDocumentComponent {
 
   sub: Subscription;
 
@@ -34,12 +32,13 @@ export class LessonComponent extends BaseDocumentComponent {
               router: Router,
               groupService: GroupService,
               private notificationService: NotificationsService,
-              documentsService: DocumentsService) {
+              documentsService: DocumentsService,
+              private testService: TestsService) {
     super(documentsService, router, loginService, groupService, componentFactoryResolver, markdownService, _injector);
   }
 
   reloadDocument() {
-    return this.documentsService.document(this.lessonId).then((result:any) => {
+    return this.testService.test(this.lessonId).then((result:any) => {
         this.updateLesson(result);
 
         return result;
@@ -51,8 +50,8 @@ export class LessonComponent extends BaseDocumentComponent {
 
   delete() {
     let disposable = this.dialogService.addDialog(ConfirmModalComponent, {
-      title: 'Удалить документ?',
-      message: 'Вы уверены что хотите удалить документ?'
+      title: 'Удалить тест?',
+      message: 'Вы уверены что хотите удалить тест?'
     })
       .subscribe((isConfirmed) => {
         //We get dialog result
@@ -67,7 +66,7 @@ export class LessonComponent extends BaseDocumentComponent {
     this.updateVisibility();
 
     if(this.isNew){
-      this.documentsService.create(this.lesson).then(result => {
+      this.testService.create(this.lesson).then(result => {
         let res : any = result;
         // window.location.href = "/lesson/" + res.id;
         this.isEditing = false;
@@ -75,31 +74,21 @@ export class LessonComponent extends BaseDocumentComponent {
         this.isNew = false;
         this.documentsService.notifyUpdated();
 
-        this.notificationService.success("", "Документ успешно сохранен!")
+        this.notificationService.success("", "Тест успешно сохранен!")
 
-        this.router.navigateByUrl("/lesson/" + res.id);
+        this.router.navigateByUrl("/test/" + res.id);
       });
     }
     else {
-      this.documentsService.update(this.lessonId, this.lesson).then(result => {
+      this.testService.update(this.lessonId, this.lesson).then(result => {
         // location.reload();
         this.isEditMode = false;
         this.isEditing = false;
-        this.notificationService.success("", "Документ успешно сохранен!")
+        this.notificationService.success("", "Тест успешно сохранен!")
         this.documentsService.notifyUpdated();
       });
     }
   }
-
-  ngAfterContentChecked(): void {
-    window.setTimeout(() => {
-      this.afterCallback.forEach((fun) => {
-        fun();
-      });
-      this.afterCallback = [];
-    });
-  }
-
 
   ngOnInit(): void {
     super.ngOnInit();
@@ -124,6 +113,7 @@ export class LessonComponent extends BaseDocumentComponent {
         this.reloadDocument();
       }
     });
+
   }
 
   ngOnDestroy(): void {

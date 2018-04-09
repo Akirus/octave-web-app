@@ -4,6 +4,7 @@ import {AuthService} from "../../../services/AuthService";
 import {LoginService} from "../../../services/login.service";
 import {NodeMenuItemAction, TreeComponent, TreeModel} from "ng2-tree";
 import {Subscription} from "rxjs/Subscription";
+import {TestsService} from "../../../services/tests.service";
 
 @Component({
   selector: 'app-left-navigation',
@@ -19,7 +20,8 @@ export class LeftNavigationComponent implements OnInit, OnDestroy {
 
   constructor(private documentsService: DocumentsService,
               public authService: AuthService,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              private testService: TestsService) { }
 
 
   ngOnInit() {
@@ -44,12 +46,21 @@ export class LeftNavigationComponent implements OnInit, OnDestroy {
   dropNone($event){
     $event.preventDefault();
     let id = $event.dataTransfer.getData("id");
+    let type = $event.dataTransfer.getData("type");
 
-    this.documentsService.update(id, {
-      parentId: -1
-    }).then(value => {
-      this.documentsService.notifyUpdated();
-    });
+    if(type === "Document") {
+      this.documentsService.update(id, {
+        parentId: -1
+      }).then(value => {
+        this.documentsService.notifyUpdated();
+      });
+    } else if (type == "Test"){
+      this.testService.update(id, {
+        parentId: -1
+      }).then(value => {
+        this.documentsService.notifyUpdated();
+      });
+    }
   }
 
   ngOnDestroy(): void {

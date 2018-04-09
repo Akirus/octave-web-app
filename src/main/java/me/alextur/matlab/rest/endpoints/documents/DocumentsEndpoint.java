@@ -91,7 +91,7 @@ public class DocumentsEndpoint extends BaseEndpoint {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
-        populateAdditionalData(result);
+        documentsService.populateAdditionalData(result);
 
         return Response.ok(result).build();
     }
@@ -149,29 +149,16 @@ public class DocumentsEndpoint extends BaseEndpoint {
                 }
             }
         }
-        if(pUpdateDocumentRequest.getAllowedGroupIds() != null){
-            Set<Long> allowedGroupIds = pUpdateDocumentRequest.getAllowedGroupIds();
-            Set<StudentGroup> groups = allowedGroupIds.stream()
-                    .map(groupRepository::findById)
-                    .collect(Collectors.toSet());
-
-            result.setAllowedGroups(groups);
-        }
-        if(pUpdateDocumentRequest.getAllowedRoles() != null){
-            Set<String> roleNames = pUpdateDocumentRequest.getAllowedRoles();
-            Set<Role> roles = roleNames.stream()
-                    .map(roleRepository::findByName)
-                    .collect(Collectors.toSet());
-
-            result.setAllowedRoles(roles);
-        }
+        documentsService.populateVisibility(pUpdateDocumentRequest, result);
 
         result = documentsService.updateDocument(result);
 
-        populateAdditionalData(result);
+        documentsService.populateAdditionalData(result);
 
         return Response.ok(result).build();
     }
+
+
 
     @PUT
     @Path("create")
@@ -187,9 +174,10 @@ public class DocumentsEndpoint extends BaseEndpoint {
             result.setName(pUpdateDocumentRequest.getName());
         }
 
+        documentsService.populateVisibility(pUpdateDocumentRequest, result);
         result = documentsService.createDocument(result, pUpdateDocumentRequest.getParentId());
 
-        populateAdditionalData(result);
+        documentsService.populateAdditionalData(result);
 
         return Response.ok(result).build();
     }
@@ -227,10 +215,6 @@ public class DocumentsEndpoint extends BaseEndpoint {
         return Response.ok().build();
     }
 
-    private void populateAdditionalData(Document pDocument) {
-        pDocument.getAdditionalData().put("link",
-                documentLinkManager.getLink(pDocument.getId()));
-        pDocument.getAdditionalData().put("visibility", documentsService.getVisibility(pDocument));
-    }
+
 
 }

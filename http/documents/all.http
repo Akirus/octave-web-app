@@ -10,7 +10,7 @@ X-ACCESS-TOKEN: 82a08de8-88bb-44ed-90d3-ba35f9bef883
 
 GET http://localhost:8080/documents/tree
 Content-Type: application/json
-X-ACCESS-TOKEN: 82a08de8-88bb-44ed-90d3-ba35f9bef883
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
 
 {
 
@@ -39,7 +39,7 @@ Content-Type: application/json
 
 ###
 POST http://localhost:8080/documents/50/update
-X-ACCESS-TOKEN: 85a50209-081a-4d8e-90ee-e26730c6c1cb
+X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
 Content-Type: application/json
 
 {
@@ -60,14 +60,6 @@ Content-Type: application/json
     "parentId" : 17
 }
 ###
-
-PUT http://localhost:8080/documents/folder
-X-ACCESS-TOKEN: 108a11f1-9bf2-4d74-92e7-657fc8c67fa3
-Content-Type: application/json
-
-{
-    "name" : "Test Folder"
-}
 
 ###
 POST http://localhost:8080/documents/39/delete

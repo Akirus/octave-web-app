@@ -1,0 +1,61 @@
+GET http://localhost:8080/documents/50
+X-ACCESS-TOKEN: 82a08de8-88bb-44ed-90d3-ba35f9bef883
+
+###
+
+GET http://localhost:8080/documents/tree
+Content-Type: application/json
+X-ACCESS-TOKEN: 1329118f-86a6-4354-b113-1683060d9708
+
+{
+
+}
+
+###
+GET http://localhost:8080/tests/11
+Content-Type: application/json
+X-ACCESS-TOKEN: 1329118f-86a6-4354-b113-1683060d9708
+
+{
+
+}
+
+
+###
+
+POST http://localhost:8080/tests/11/update
+X-ACCESS-TOKEN: 1329118f-86a6-4354-b113-1683060d9708
+Content-Type: application/json
+
+{
+    "allowedGroupIds": [],
+    "allowedRoles" : []
+}
+
+###
+POST http://localhost:8080/tests/11/update
+X-ACCESS-TOKEN: 1329118f-86a6-4354-b113-1683060d9708
+Content-Type: application/json
+
+{
+    "name" : "Test 1"
+}
+
+
+###
+
+PUT http://localhost:8080/tests/create
+X-ACCESS-TOKEN: 1329118f-86a6-4354-b113-1683060d9708
+Content-Type: application/json
+
+{
+    "name" : "New Doc 2",
+    "introductionText": "Hello this is a test test",
+    "parentId" : 6
+}
+
+###
+POST http://localhost:8080/documents/39/delete
+X-ACCESS-TOKEN: cb1cb9b8-c7ae-47e1-8631-9db33c6869ea
+
+###

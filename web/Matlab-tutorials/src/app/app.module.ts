@@ -18,6 +18,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'test/:id',
+    component: TestComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'playground',
     component: PlaygroundComponent,
     canActivate: [AuthGuard]
@@ -79,9 +84,11 @@ import {CallbackPipe} from "./services/callback.pipe";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {Options, SimpleNotificationsModule} from "angular2-notifications";
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
+import {TestComponent} from "./components/octave/test/test.component";
+import {TestsService} from "./services/tests.service";
 
 const notificationOptions: Options = {
-  timeOut: 3000
+  timeOut: 1000
 };
 
 @NgModule({
@@ -102,7 +109,8 @@ const notificationOptions: Options = {
     UsersTableComponent,
     ConfirmModalComponent,
     TextInputModalComponent,
-    CallbackPipe
+    CallbackPipe,
+    TestComponent
   ],
   entryComponents: [
     OctaveExecComponent,
@@ -135,7 +143,8 @@ const notificationOptions: Options = {
     AuthService,
     LoginService,
     OctaveService,
-    GroupService
+    GroupService,
+    TestsService
 ],
   bootstrap: [AppComponent]
 })

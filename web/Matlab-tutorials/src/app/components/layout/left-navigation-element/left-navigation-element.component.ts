@@ -3,6 +3,7 @@ import { DocumentsService } from "../../../services/documents.service";
 import {AuthService} from "../../../services/AuthService";
 import {LoginService} from "../../../services/login.service";
 import {Subscription} from "rxjs/src/Subscription";
+import {TestsService} from "../../../services/tests.service";
 
 @Component({
   selector: 'ul.app-left-navigation-element',
@@ -18,7 +19,7 @@ export class LeftNavigationElementComponent implements OnInit {
 
   constructor(private documentsService: DocumentsService,
               public authService: AuthService,
-              private loginService: LoginService) { }
+              private testService: TestsService) { }
 
 
   ngOnInit() {
@@ -27,20 +28,33 @@ export class LeftNavigationElementComponent implements OnInit {
 
   elementdragstart(lesson, event){
     event.dataTransfer.setData('id', lesson.id);
+    event.dataTransfer.setData('type', lesson.type);
+
   }
 
   elementdrop(lesson, $event){
     $event.preventDefault();
     let id = $event.dataTransfer.getData("id");
+    let type = $event.dataTransfer.getData("type");
     if(id == lesson.id){
       return;
     }
 
-    this.documentsService.update(id, {
-      parentId: lesson.id
-    }).then(value => {
-      this.documentsService.notifyUpdated();
-    });
+    console.dir(type);
+
+    if(type === "Document") {
+      this.documentsService.update(id, {
+        parentId: lesson.id
+      }).then(value => {
+        this.documentsService.notifyUpdated();
+      });
+    } else if (type === "Test"){
+      this.testService.update(id, {
+        parentId: lesson.id
+      }).then(value => {
+        this.documentsService.notifyUpdated();
+      });
+    }
   }
 
 }

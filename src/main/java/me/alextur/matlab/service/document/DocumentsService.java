@@ -9,7 +9,13 @@ import me.alextur.matlab.model.user.User;
 import me.alextur.matlab.repository.document.DocumentRepository;
 import me.alextur.matlab.repository.document.FolderRepository;
 import me.alextur.matlab.repository.document.TreeRepository;
+import me.alextur.matlab.repository.user.GroupRepository;
+import me.alextur.matlab.repository.user.RoleRepository;
+import me.alextur.matlab.rest.endpoints.documents.DocumentLinkManager;
+import me.alextur.matlab.rest.endpoints.documents.model.ChangeDocumentRequest;
+import me.alextur.matlab.rest.endpoints.documents.model.ChangeTreeEntityRequest;
 import me.alextur.matlab.service.user.UserService;
+import me.alextur.matlab.utils.CollectionUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,13 +34,22 @@ public class DocumentsService {
     private final DocumentRepository documentRepository;
     private final TreeRepository treeRepository;
     private final FolderRepository folderRepository;
+    private final GroupRepository groupRepository;
+    private final RoleRepository roleRepository;
+    private final DocumentLinkManager documentLinkManager;
 
     public DocumentsService(@Autowired DocumentRepository pDocumentRepository,
                             @Autowired TreeRepository pTreeRepository,
-                            @Autowired FolderRepository pFolderRepository) {
+                            @Autowired FolderRepository pFolderRepository,
+                            @Autowired GroupRepository pGroupRepository,
+                            @Autowired RoleRepository pRoleRepository,
+                            @Autowired DocumentLinkManager pDocumentLinkManager) {
         documentRepository = pDocumentRepository;
         treeRepository = pTreeRepository;
         folderRepository = pFolderRepository;
+        groupRepository = pGroupRepository;
+        roleRepository = pRoleRepository;
+        documentLinkManager = pDocumentLinkManager;
     }
 
     public List<TreeEntity> expandTree(final User user, List<TreeEntity> rootDocuments){
@@ -116,10 +131,35 @@ public class DocumentsService {
     public Map<String, Object> getVisibility(TreeEntity document){
         Map<String, Object> result = new HashMap<>();
 
-        result.put("groups", new HashSet<>(document.getAllowedGroups()));
-        result.put("roles", new HashSet<>(document.getAllowedRoles()));
+        result.put("groups", CollectionUtils.copySet(document.getAllowedGroups()));
+        result.put("roles", CollectionUtils.copySet(document.getAllowedRoles()));
 
         return result;
+    }
+
+    public void populateVisibility(ChangeTreeEntityRequest pUpdateDocumentRequest, TreeEntity pResult) {
+        if(pUpdateDocumentRequest.getAllowedGroupIds() != null){
+            Set<Long> allowedGroupIds = pUpdateDocumentRequest.getAllowedGroupIds();
+            Set<StudentGroup> groups = allowedGroupIds.stream()
+                    .map(groupRepository::findById)
+                    .collect(Collectors.toSet());
+
+            pResult.setAllowedGroups(groups);
+        }
+        if(pUpdateDocumentRequest.getAllowedRoles() != null){
+            Set<String> roleNames = pUpdateDocumentRequest.getAllowedRoles();
+            Set<Role> roles = roleNames.stream()
+                    .map(roleRepository::findByName)
+                    .collect(Collectors.toSet());
+
+            pResult.setAllowedRoles(roles);
+        }
+    }
+
+    public void populateAdditionalData(TreeEntity pDocument) {
+        pDocument.getAdditionalData().put("link",
+                documentLinkManager.getLink(pDocument.getId()));
+        pDocument.getAdditionalData().put("visibility", this.getVisibility(pDocument));
     }
 
 }
