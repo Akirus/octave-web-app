@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default" *ngIf="!isEditMode">
       <div class="panel-heading">
         <div class="panel-title">
           Мои попытки
@@ -80,6 +80,29 @@
       </div>
       <div class="panel-body">
         TODO
+      </div>
+    </div>
+    <div class="panel panel-success" *ngIf="isEditMode">
+      <div class="panel-heading">
+        <div class="panel-title">
+          Вопросы
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="list-group">
+          <a  class="list-group-item">
+            1. Pictures <span class="pull-right"><a href="#"> <i class="glyphicon glyphicon-edit"></i> </a> <a href="#"> <i class="glyphicon glyphicon-remove"></i> </a></span>
+          </a>
+          <a class="list-group-item">
+            2. Documents <span class="pull-right"><a href="#"> <i class="glyphicon glyphicon-edit"></i> </a> <a href="#"> <i class="glyphicon glyphicon-remove"></i> </a></span>
+          </a>
+          <a class="list-group-item">
+            3. Music <span class="pull-right"><a href="#"> <i class="glyphicon glyphicon-edit"></i> </a> <a href="#"> <i class="glyphicon glyphicon-remove"></i> </a></span>
+          </a>
+          <a class="list-group-item">
+            4. Videos <span class="pull-right"><a href="#"> <i class="glyphicon glyphicon-edit"></i> </a> <a href="#"> <i style="color:red" class="fa fa-remove"></i> </a></span>
+          </a>
+        </div>
       </div>
     </div>
   </div>

@@ -1,8 +1,6 @@
 package me.alextur.matlab.utils;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Alex Turchynovich
@@ -14,6 +12,14 @@ public class CollectionUtils {
             return Collections.emptySet();
         }
         return new HashSet<T>(set);
+    }
+
+    public static <T> List<T> copyList(List<T> list){
+        if(list == null){
+            return Collections.emptyList();
+        }
+
+        return new ArrayList<>(list);
     }
 
 }

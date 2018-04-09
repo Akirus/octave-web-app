@@ -12,7 +12,7 @@
   </a>
 
   <a *ngIf="lesson.type == 'Test'" draggable="true" href="" routerLink="/test/{{lesson.id}}" onclick="event.preventDefault()" (drop)="elementdrop(lesson, $event)" (dragover)="$event.preventDefault()" (dragstart)="elementdragstart(lesson, $event)" >
-    {{ lesson.name }} <a *ngIf="lesson.children && lesson.children.length > 0" data-toggle="collapse" [attr.data-target]="'#menu' + lesson.id" >
+    <i class="glyphicon glyphicon glyphicon glyphicon-education"></i> {{ lesson.name }} <a *ngIf="lesson.children && lesson.children.length > 0" data-toggle="collapse" [attr.data-target]="'#menu' + lesson.id" >
     <i class="glyphicon glyphicon-chevron-right"></i></a>
   </a>
 

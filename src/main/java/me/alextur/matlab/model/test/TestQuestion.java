@@ -12,6 +12,15 @@ public class TestQuestion {
     private Test test;
     private Long id;
     private List<TestVariant> variants;
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String pContent) {
+        content = pContent;
+    }
 
     @Id
     @GeneratedValue

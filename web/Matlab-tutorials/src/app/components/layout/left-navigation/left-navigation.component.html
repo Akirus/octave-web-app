@@ -20,6 +20,9 @@
   <li *ngIf="canEdit" routerLinkActive="active">
     <a routerLink="/lesson/new"><span class="glyphicon glyphicon-duplicate"></span> Новый Урок </a>
   </li>
+  <li *ngIf="canEdit" routerLinkActive="active">
+    <a routerLink="/test/new"><span class="glyphicon glyphicon-duplicate"></span> Новый Тест </a>
+  </li>
 </ul>
 
 <hr *ngIf="authService.isAuthenticated()">

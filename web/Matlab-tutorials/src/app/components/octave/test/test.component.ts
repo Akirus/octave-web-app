@@ -74,7 +74,7 @@ export class TestComponent extends BaseDocumentComponent {
         this.isNew = false;
         this.documentsService.notifyUpdated();
 
-        this.notificationService.success("", "Тест успешно сохранен!")
+        this.notificationService.success("", "Тест успешно сохранен!");
 
         this.router.navigateByUrl("/test/" + res.id);
       });
@@ -84,7 +84,7 @@ export class TestComponent extends BaseDocumentComponent {
         // location.reload();
         this.isEditMode = false;
         this.isEditing = false;
-        this.notificationService.success("", "Тест успешно сохранен!")
+        this.notificationService.success("", "Тест успешно сохранен!");
         this.documentsService.notifyUpdated();
       });
     }
