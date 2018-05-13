@@ -1,6 +1,7 @@
 package me.alextur.matlab.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import me.alextur.matlab.model.media.Media;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,6 +27,8 @@ public class User implements UserDetails{
     private boolean isEnabled;
 
     private StudentGroup studentGroup;
+
+    private Media avatar;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -134,6 +137,26 @@ public class User implements UserDetails{
         this.studentGroup = studentGroup;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "avatar_id")
+    @JsonIgnore
+    public Media getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Media pAvatar) {
+        avatar = pAvatar;
+    }
+
+    @Transient
+    public Long getAvatarId(){
+        Media avatar = getAvatar();
+        if (avatar != null) {
+            return getAvatar().getId();
+        }
+        return null;
+    }
+
     @Transient
     public String getStudentGroupName(){
         StudentGroup group = getStudentGroup();
@@ -153,4 +176,6 @@ public class User implements UserDetails{
 
         return 0L;
     }
+
+
 }

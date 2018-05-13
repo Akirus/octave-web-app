@@ -31,3 +31,14 @@
 .modal.fade.show.in {
   background: rgba(0, 0, 0, 0.6);
 }
+
+.img-avatar{
+  margin-bottom: 15px;
+  width: 128px;
+  height: 128px;
+  object-fit: cover;
+}
+
+[contenteditable]:focus {
+  outline: 0px solid transparent;
+}

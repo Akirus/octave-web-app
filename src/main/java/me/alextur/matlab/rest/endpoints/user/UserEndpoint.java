@@ -1,5 +1,6 @@
 package me.alextur.matlab.rest.endpoints.user;
 
+import me.alextur.matlab.model.media.Media;
 import me.alextur.matlab.model.user.AccessToken;
 import me.alextur.matlab.model.user.DefinedRole;
 import me.alextur.matlab.model.user.StudentGroup;
@@ -9,9 +10,11 @@ import me.alextur.matlab.repository.user.UserRepository;
 import me.alextur.matlab.rest.BaseEndpoint;
 import me.alextur.matlab.rest.auth.PermitAll;
 import me.alextur.matlab.rest.auth.PermitRoles;
+import me.alextur.matlab.service.media.CreateMediaRequest;
 import me.alextur.matlab.rest.endpoints.user.model.LoginRequest;
 import me.alextur.matlab.rest.endpoints.user.model.RegisterRequest;
 import me.alextur.matlab.rest.endpoints.user.model.UpdateRequest;
+import me.alextur.matlab.service.media.MediaService;
 import me.alextur.matlab.service.user.UserListFilter;
 import me.alextur.matlab.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +46,20 @@ public class UserEndpoint extends BaseEndpoint {
     private Validator validator;
     private UserRepository userRepository;
     private GroupRepository groupRepository;
+    private MediaService mediaService;
 
     public UserEndpoint(@Autowired UserService pUserService,
                         @Autowired AuthenticationManager pAuthManager,
                         @Autowired Validator pValidator,
                         @Autowired UserRepository pUserRepository,
-                        @Autowired GroupRepository groupRepository) {
-        userService = pUserService;
-        authManager = pAuthManager;
-        validator = pValidator;
-        userRepository = pUserRepository;
+                        @Autowired GroupRepository groupRepository,
+                        @Autowired MediaService pMediaService) {
+        this.userService = pUserService;
+        this.authManager = pAuthManager;
+        this.validator = pValidator;
+        this.userRepository = pUserRepository;
         this.groupRepository = groupRepository;
+        this.mediaService = pMediaService;
     }
 
     @POST
@@ -180,6 +186,29 @@ public class UserEndpoint extends BaseEndpoint {
 
         return user;
     }
+
+    @POST
+    @Path("update/avatar/{userId}")
+    @Transactional
+    public Object setAvatar(@PathParam("userId") long userId, CreateMediaRequest pCreateMediaRequest){
+        if(!UserService.userHasAccessToAnotherUser(userId)){
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+
+        User user = userRepository.findById(userId);
+
+        if(pCreateMediaRequest != null) {
+            Media avatar = mediaService.createMedia(pCreateMediaRequest);
+            if (avatar != null){
+                user.setAvatar(avatar);
+            }
+
+            userRepository.saveAndFlush(user);
+        }
+
+        return user;
+    }
+
 
     @POST
     @Path("update")

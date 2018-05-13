@@ -11,6 +11,13 @@
         </p>
       </div>
 
+      <div class="form-group col-md-12" *ngIf="avatarUrl != null">
+        <img class="img-avatar img-circle img-responsive" [src]="avatarUrl"/>
+        Сменить аватар:
+        <input type="file" (change)="changeAvatar($event)" name="avatarUpload" class="form-control" style="margin-bottom: 10px;"/>
+        <button *ngIf="avatarFile != null" class="btn btn-default btn-success" (click)="uploadAvatar()">Сохранить</button>
+      </div>
+
       <div class="form-group col-md-12">
         Имя:
         <input type="text" name="firstName" class="form-control" [(ngModel)]="firstName"/>

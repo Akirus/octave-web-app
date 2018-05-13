@@ -1,5 +1,7 @@
 <div>
-  <pre class="language-matlab"><code class="language-matlab">{{code}}</code></pre>
+  <pre class="language-matlab"><code class="language-matlab" contenteditable="true"
+          (contenteditableModelChange)="code = $event"
+          [contenteditableModel]="code"></code></pre>
   <div *ngIf="errors" class="errors-block">
     Errors:
     <pre><code>{{errors}}</code></pre>

@@ -6,6 +6,7 @@ import me.alextur.matlab.rest.auth.AuthFilter;
 import me.alextur.matlab.rest.auth.AuthenticationTokenProcessingFilter;
 import me.alextur.matlab.rest.endpoints.documents.DocumentsEndpoint;
 import me.alextur.matlab.rest.endpoints.group.GroupEndpoint;
+import me.alextur.matlab.rest.endpoints.media.MediaEndpoint;
 import me.alextur.matlab.rest.endpoints.octave.OctaveEndpoint;
 import me.alextur.matlab.rest.endpoints.test.TestEndpoint;
 import me.alextur.matlab.rest.endpoints.user.UserEndpoint;
@@ -29,6 +30,7 @@ public class JerseyConfig extends ResourceConfig {
         register(UserEndpoint.class);
         register(GroupEndpoint.class);
         register(TestEndpoint.class);
+        register(MediaEndpoint.class);
 //        configureSwagger();
     }
 

@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit {
     this.dialogService.addDialog(TextInputModalComponent, {
       title: "Создать новую группу",
       message: "Имя группы",
-      inputValue: "Новая группа"
+      placeholder: "Новая группа"
     }).subscribe(result => {
       if(result){
         this.groupService.create({

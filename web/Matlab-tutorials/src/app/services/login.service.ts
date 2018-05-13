@@ -142,4 +142,15 @@ export class LoginService{
     return this.http.post( environment.apiUrl + "user/approve/" + userId,null,{responseType: 'text'}).toPromise();
   }
 
+  public changeAvatar(userId: any, data: any){
+    return this.http.post(environment.apiUrl + "user/update/avatar/" + userId, data).toPromise();
+  }
+
+  getAvatarUrl(result: any) {
+    let avatarId = result.avatarId;
+    if (avatarId) {
+      return `${environment.apiUrl}mediastream/` + avatarId;
+    }
+    return "https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=60";
+  }
 }

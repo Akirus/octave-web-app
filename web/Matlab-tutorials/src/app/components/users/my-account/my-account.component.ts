@@ -4,6 +4,7 @@ import {LessonComponent} from "../../octave/lesson/lesson-component.component";
 import {ActivatedRoute, Route} from "@angular/router";
 import {GroupService} from "../../../services/group.service";
 import {NotificationsService} from "angular2-notifications";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-my-account',
@@ -20,14 +21,17 @@ export class MyAccountComponent implements OnInit {
   isAdmin: boolean;
   groups: any[] = [];
   groupId: number = 0;
+  avatarUrl: any;
 
   password: string = "";
   passwordConfirm: string = "";
+  avatarFile: File = null;
 
   constructor(private loginService: LoginService,
               private currentRoute: ActivatedRoute,
               private groupService: GroupService,
-              private notificationService: NotificationsService) { }
+              private notificationService: NotificationsService,
+              private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.currentRoute.params.subscribe(params => {
@@ -37,6 +41,7 @@ export class MyAccountComponent implements OnInit {
         this.lastName = result.lastName;
         this.email = result.email;
         this.groupId = result.studentGroupId;
+        this.avatarUrl = this.loginService.getAvatarUrl(result);
         this.user = result;
       });
 
@@ -91,5 +96,38 @@ export class MyAccountComponent implements OnInit {
       this.notificationService.success("Ошибка", "Ошибка попробуйте позже.")
     });
 
+  }
+
+  changeAvatar(event) {
+    let target: HTMLInputElement = <HTMLInputElement> event.target;
+    let files: FileList = target.files;
+    this.avatarFile = files[0];
+
+    this.avatarUrl = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(this.avatarFile));
+  }
+
+  getContentType(name) {
+    let extension = name.substring(name.lastIndexOf('.') + 1)
+    return "image/" + extension;
+  }
+
+  uploadAvatar() {
+    let reader = new FileReader();
+    reader.onload = (readerEvt : any) => {
+      let binaryString = readerEvt.target.result;
+
+      this.loginService.changeAvatar(this.userId, {
+        name: "avatar",
+        contentType: this.getContentType(this.avatarFile.name),
+        content: btoa(binaryString)
+      }).then(result => {
+        this.notificationService.success("", "Аватар успешно обновлен.");
+        this.avatarFile = null;
+      });
+
+      btoa(binaryString);
+    };
+
+    reader.readAsBinaryString(this.avatarFile);
   }
 }

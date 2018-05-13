@@ -86,6 +86,7 @@ import {Options, SimpleNotificationsModule} from "angular2-notifications";
 import {AngularMultiSelectModule} from "angular2-multiselect-dropdown";
 import {TestComponent} from "./components/octave/test/test.component";
 import {TestsService} from "./services/tests.service";
+import {ContentEditableDirective} from "./services/contentEditableModel";
 
 const notificationOptions: Options = {
   timeOut: 1000
@@ -110,7 +111,8 @@ const notificationOptions: Options = {
     ConfirmModalComponent,
     TextInputModalComponent,
     CallbackPipe,
-    TestComponent
+    TestComponent,
+    ContentEditableDirective
   ],
   entryComponents: [
     OctaveExecComponent,

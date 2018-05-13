@@ -6,6 +6,7 @@ export interface TextInputModal {
   title:string;
   message:string;
   inputValue: string;
+  placeholder: string;
 }
 
 @Component({
@@ -18,6 +19,8 @@ export class TextInputModalComponent extends DialogComponent<TextInputModal, str
   title: string;
   message: string;
   inputValue: string;
+  placeholder: string;
+
   constructor(dialogService: DialogService) {
     super(dialogService);
   }

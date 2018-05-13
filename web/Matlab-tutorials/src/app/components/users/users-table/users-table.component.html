@@ -10,8 +10,8 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Имя</th>
           <th>Фамилия</th>
+          <th>Имя</th>
           <th>Группа</th>
           <th *ngIf="isTeacher">Логин</th>
           <th *ngIf="isTeacher">Email</th>
@@ -22,9 +22,9 @@
         </thead>
         <tbody>
         <tr *ngFor="let user of users | callback: filterUsers(filterLastName)">
-          <td *ngIf="isTeacher"><a [routerLink]="'/user/' + user.id">{{user.firstName}}</a></td>
-          <td *ngIf="!isTeacher">{{user.firstName}}</td>
-          <td>{{user.lastName}}</td>
+          <td *ngIf="!isTeacher">{{user.lastName}}</td>
+          <td *ngIf="isTeacher"><a [routerLink]="'/user/' + user.id">{{user.lastName}}</a></td>
+          <td>{{user.firstName}}</td>
           <th>{{user.studentGroupName}}</th>
           <td *ngIf="isTeacher">{{user.username}}</td>
           <td *ngIf="isTeacher">{{user.email}}</td>

@@ -72,6 +72,7 @@ export abstract class BaseDocumentComponent implements OnInit, OnDestroy, AfterC
       this.documentsService.notifyUpdated();
       this.router.navigateByUrl("/playground");
     }).catch(result => {
+      this.documentsService.notifyUpdated();
       this.router.navigateByUrl("/playground");
     });
   }
